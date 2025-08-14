@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowHaven - Favorites</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            color: #333;
+            display: block;
+            line-height: 1.6;
+        }
+        .favorites-wrapper {
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            background: none;
+            border-radius: 0;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+            margin-bottom: 2rem;
+            margin-top: 0;
+        }
+        .candle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            justify-content: center;
+        }
+        .candle-card {
+            background: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #f0f0f0;
+        }
+        .candle-card:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+            border-color: #d97706;
+        }
+        .candle-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: contain;
+            background: #f8fafc;
+            display: block;
+            transition: transform 0.3s ease;
+            padding: 15px;
+        }
+        
+        .candle-card:hover img {
+            transform: scale(1.02);
+        }
+        .candle-card-content {
+            background: #ffffff;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 120px;
+        }
+        .candle-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+            margin-top: 0;
+        }
+        .candle-card p {
+            color: #d97706;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 1.2rem 0;
+        }
+        .button {
+            margin-top: 0.5rem;
+            padding: 0.7rem 2.2rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            background-color: #7a7a73;
+            color: #f8f3ce;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 1.05rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .button:hover {
+            background-color: #57564f;
+        }
+        .no-favorites-message {
+            text-align: center;
+            color: #7a7a73;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .back-link {
+            display: block;
+            margin: 1.5rem auto 0 auto;
+            text-align: center;
+            color: #7a7a73;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+            color: #57564f;
+        }
+        @media (max-width: 767px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .candle-grid {
+                gap: 1rem;
+                grid-template-columns: 1fr;
+            }
+            .candle-card img {
+                height: 150px;
+            }
+            .candle-card-content {
+                padding: 1.2rem 0.7rem 1rem 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container flex" style="max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; padding:1rem 0;">
+            <h1 style="font-size:2.25rem; font-weight:700; letter-spacing:0.05em; margin:0;"><span style="color:#dddad0;">Glow</span>Haven</h1>
+            <nav>
+                <ul style="display:flex; list-style:none; margin:0; padding:0; gap:1.5rem;">
+                    <li><a href="index.html#home-section" style="color:#f8f3ce; text-decoration:none;">Home</a></li>
+                    <li><a href="index.html#candle-collection-section" style="color:#f8f3ce; text-decoration:none;">Candles</a></li>
+                    <li><a href="index.html#about-section-link" style="color:#f8f3ce; text-decoration:none;">About Us</a></li>
+                    <li><a href="index.html#contact-section-link" style="color:#f8f3ce; text-decoration:none;">Contact</a></li>
+                    <li><a href="favorites.html" style="color:#dddad0; text-decoration:none; font-weight:700;">Favorites</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="favorites-wrapper">
+        <h2 class="section-title">Your Favorite Candles</h2>
+        <div id="favorites-grid" class="candle-grid"></div>
+        <div id="no-favorites-message" class="no-favorites-message" style="display: none;">
+            You haven't added any favorites yet. <a href="index.html#candle-collection-section" class="back-link">Explore our Candle Collection</a>!
+        </div>
+        <a href="index.html" class="back-link">&larr; Back to Home</a>
+    </div>
+    <script>
+        // Candle data (matching index.html)
+        const candlesData = [
+            {
+                id: '1',
+                name: 'Rose Heart Jar Candle',
+                price: 199,
+                originalPrice: 249,
+                image: 'candles_images/Rose Heart Jar Candle.jpg',
+                description: 'A beautifully crafted jar candle with a romantic rose fragrance, perfect for creating a warm and inviting atmosphere.',
+                scent: 'Floral'
+            },
+            {
+                id: '2',
+                name: 'Peony Jar Candle',
+                price: 200,
+                originalPrice: 249,
+                image: 'candles_images/Peony Jar Candle.jpg',
+                description: 'This elegant peony-scented jar candle combines floral and rose notes to bring a touch of sophistication to any space.',
+                scent: 'Floral, Rose'
+            },
+            {
+                id: '3',
+                name: 'Jar of Hearts',
+                price: 250,
+                originalPrice: 299,
+                image: 'candles_images/Jar of Hearts.jpg',
+                description: 'A luxurious candle with a blend of vanilla and floral scents, ideal for adding warmth and elegance to your home.',
+                scent: 'Vanilla, Floral'
+            },
+            {
+                id: '4',
+                name: 'Small Peony Candle',
+                price: 79,
+                image: 'candles_images/Small Peony Candle.jpg',
+                description: 'A compact candle with a delightful mix of floral, rose, and lavender scents, perfect for small spaces or gifting.',
+                scent: 'Floral, Rose, Lavender'
+            },
+            {
+                id: '5',
+                name: 'Lavender Marble Jar Candle',
+                price: 249,
+                image: 'candles_images/Lavender Marble Jar Candle.jpg',
+                description: 'A soothing lavender-scented jar candle with a marble finish, designed to promote relaxation and tranquility.',
+                scent: 'Lavender'
+            },
+            {
+                id: '6',
+                name: 'Heart of Roses',
+                price: 79,
+                image: 'candles_images/Heart of Roses.jpg',
+                description: 'A charming small candle infused with the classic scent of roses, ideal for romantic settings or thoughtful gifts.',
+                scent: 'Rose'
+            },
+            {
+                id: '7',
+                name: 'Scented Candles Bouquet',
+                price: 499,
+                image: 'candles_images/Scented Candles Bouquet.jpg',
+                description: 'A stunning bouquet of scented candles with a floral fragrance, perfect as a centerpiece or luxurious gift.',
+                scent: 'Floral'
+            },
+            {
+                id: '8',
+                name: 'Mothi Choor Laddu Candles',
+                price: 200,
+                originalPrice: 299,
+                image: 'candles_images/Mothi Choor Laddu Candles.jpg',
+                description: 'A pack of four candles inspired by the sweet aroma of mothi choor laddu, offering a warm vanilla scent.',
+                scent: 'Vanilla'
+            },
+            {
+                id: '9',
+                name: 'Mini Bubble Candles',
+                price: 199,
+                image: 'candles_images/Mini Bubble Candles.jpg',
+                description: 'A pack of three mini bubble candles with a blend of floral, vanilla, rose, and lavender scents for a versatile ambiance.',
+                scent: 'Floral, Vanilla, Rose, Lavender'
+            },
+            {
+                id: '10',
+                name: 'Blooming Heart Tin Candle',
+                price: 250,
+                originalPrice: 349,
+                image: 'candles_images/Blooming Heart Tin Candle.jpg',
+                description: 'A heart-shaped tin candle with floral and rose notes, designed to add a touch of romance to any setting.',
+                scent: 'Floral, Rose'
+            },
+            {
+                id: '11',
+                name: 'Tulip and Daisy Candle Bouquet',
+                price: 99,
+                image: 'candles_images/Tulip and Daisy Candle Bouquet.jpg',
+                description: 'A single candle with a vibrant floral scent, inspired by tulips and daisies, perfect for a fresh and lively atmosphere.',
+                scent: 'Floral'
+            },
+            {
+                id: '12',
+                name: 'Daisy Marble Candle',
+                price: 249,
+                image: 'candles_images/Daisy Marble Candle.jpg',
+                description: 'A beautifully designed marble candle with a refreshing floral daisy scent, ideal for modern home decor.',
+                scent: 'Floral'
+            },
+            {
+                id: '13',
+                name: 'Scented Floating Daisy Candles',
+                price: 299,
+                image: 'candles_images/Scented Floating Daisy Candles.jpg',
+                description: 'A pack of six floating candles with a floral daisy fragrance, perfect for creating a serene and elegant ambiance.',
+                scent: 'Floral'
+            }
+        ];
+        
+        function getFavorites() {
+            const favorites = localStorage.getItem('glowhaven_favorites');
+            return favorites ? JSON.parse(favorites) : [];
+        }
+        
+        function saveFavorites(favorites) {
+            localStorage.setItem('glowhaven_favorites', JSON.stringify(favorites));
+        }
+        
+        function showToast(message) {
+            let toast = document.getElementById('toast-notification');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast-notification';
+                toast.style.position = 'fixed';
+                toast.style.top = '32px';
+                toast.style.right = '32px';
+                toast.style.zIndex = '3000';
+                toast.style.background = '#7a7a73';
+                toast.style.color = '#f8f3ce';
+                toast.style.padding = '1rem 2rem';
+                toast.style.borderRadius = '0.75rem';
+                toast.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)';
+                toast.style.fontSize = '1.1rem';
+                toast.style.fontWeight = '600';
+                toast.style.minWidth = '180px';
+                toast.style.textAlign = 'center';
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.4s';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = message;
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 1800);
+        }
+        
+        function removeFromFavorites(candleId) {
+            let favorites = getFavorites();
+            favorites = favorites.filter(id => id !== candleId);
+            saveFavorites(favorites);
+            renderFavorites();
+            showToast('Removed from Favorites!');
+        }
+        
+        function renderFavorites() {
+            const favorites = getFavorites();
+            const favoriteCandles = candlesData.filter(candle => favorites.includes(candle.id));
+            const favoritesGrid = document.getElementById('favorites-grid');
+            const noFavoritesMessage = document.getElementById('no-favorites-message');
+            if (favoriteCandles.length > 0) {
+                favoritesGrid.innerHTML = favoriteCandles.map(candle => `
+                    <div class="candle-card">
+                        <img src="${candle.image}" alt="${candle.name}">
+                        <div class="candle-card-content">
+                            <h3>${candle.name}</h3>
+                            <p>₹${candle.price.toFixed(0)}</p>
+                            <button class="button" onclick="removeFromFavorites('${candle.id}')">Remove</button>
+                        </div>
+                    </div>
+                `).join('');
+                noFavoritesMessage.style.display = 'none';
+            } else {
+                favoritesGrid.innerHTML = '';
+                noFavoritesMessage.style.display = 'block';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', renderFavorites);
+    </script>
+</body>
+</html> 
