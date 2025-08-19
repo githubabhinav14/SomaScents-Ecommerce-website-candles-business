@@ -250,19 +250,31 @@ function renderHomePageAndAllSections() {
                     <h2>Illuminate Your World with</h2>
                     <h3>SomaScents</h3>
                     <p>Discover handcrafted candles that transform your space into a sanctuary of warmth and aroma.</p>
-                    <a href="#candle-collection-section" class="button button-primary">
-                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                        Explore Candles
-                    </a>
-                </div>
-                <div class="hero-image-gallery">
-                    <div class="image-carousel-track">
-                        <img src="candles_images/Lavender Marble Jar Candle.jpg" alt="Candle A">
-                        <img src="candles_images/Jar of Hearts.jpg" alt="Candle B">
-                        <img src="candles_images/Heart of Roses.jpg" alt="Candle C">
-                        <img src="candles_images/Blooming Heart Tin Candle.jpg" alt="Candle D">
+                    <div class="hero-cta-group">
+                        <a href="#candle-collection-section" class="button button-primary">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            Explore Candles
+                        </a>
+                        <a href="#best-sellers-section" class="button button-outline button-small">Best Sellers</a>
+                    </div>
+                    <div class="hero-bottom">
+                        <p class="hero-tagline">Hand-poured. Clean burn. Cozy vibes.</p>
+                        <div class="hero-trust-badges">
+                            <div class="trust-badge"><span class="icon">🌿</span>Natural wax blends</div>
+                            <div class="trust-badge"><span class="icon">🕯️</span>Long-lasting burn</div>
+                            <div class="trust-badge"><span class="icon">🎁</span>Perfect for gifting</div>
+                        </div>
                     </div>
                 </div>
+                <div class="hero-image-gallery">
+                    <img src="candles_images/Peony Jar Candle.jpg" alt="Hero Candle" style="width:100%;height:100%;object-fit:contain;border-radius:0.75rem;" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+                Scroll
             </div>
         </section>
 
@@ -287,6 +299,9 @@ function renderHomePageAndAllSections() {
                                 <div class="candle-overlay">
                                     <button class="quick-view-btn" onclick="showCandleDetail('${candle.id}')">Quick View</button>
                                 </div>
+                            </div>
+                            <div class="buy-now-container">
+                                <button type="button" class="buy-now-btn" onclick="showCandleDetail('${candle.id}')" aria-label="Buy ${candle.name}">Buy Now</button>
                             </div>
                             <div class="candle-info">
                                 <h3>${candle.name}</h3>
@@ -326,6 +341,27 @@ function renderHomePageAndAllSections() {
                         <p class="price">₹${item.price.toFixed(0)}</p>
                     </div>
                 `).join('')}
+            </div>
+        </section>
+
+        <section class="testimonials-section" id="testimonials-section">
+            <h2 class="section-title">Loved by our customers</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">★★★★★</div>
+                    <p class="testimonial-quote">The scents are divine and the jars look stunning on my shelf. Repeat customer for life!</p>
+                    <div class="testimonial-author">Ananya</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">★★★★★</div>
+                    <p class="testimonial-quote">Long burn time and super clean. Perfect for unwinding after work.</p>
+                    <div class="testimonial-author">Rahul</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">★★★★★</div>
+                    <p class="testimonial-quote">Bought as gifts and everyone loved them. Packaging is beautiful too.</p>
+                    <div class="testimonial-author">Priya</div>
+                </div>
             </div>
         </section>
 
@@ -431,7 +467,7 @@ function renderHomePageAndAllSections() {
 document.querySelectorAll('.candle-card').forEach(card => {
     card.addEventListener('click', (event) => {
         // Don't trigger if clicking on buttons
-        if (event.target.closest('.add-to-cart-btn') || event.target.closest('.add-to-favorites-btn') || event.target.closest('.quick-view-btn')) {
+        if (event.target.closest('.add-to-cart-btn') || event.target.closest('.add-to-favorites-btn') || event.target.closest('.quick-view-btn') || event.target.closest('.buy-now-btn')) {
             return;
         }
         const candleId = event.currentTarget.dataset.id;
@@ -1019,6 +1055,9 @@ function renderCandleCollection(candles) {
                     <div class="candle-overlay">
                         <button class="quick-view-btn" onclick="showCandleDetail('${candle.id}')">Quick View</button>
                     </div>
+                </div>
+                <div class="buy-now-container">
+                    <button type="button" class="buy-now-btn" onclick="showCandleDetail('${candle.id}')" aria-label="Buy ${candle.name}">Buy Now</button>
                 </div>
                 <div class="candle-info">
                     <h3>${candle.name}</h3>
