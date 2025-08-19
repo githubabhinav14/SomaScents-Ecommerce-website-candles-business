@@ -160,8 +160,8 @@ function navigateTo(page, id = null, section = null) {
         selectedCandleId = id;
         scrollToSection = section;
         renderPage();
-        if (page !== 'detail' && !section) {
-            window.scrollTo(0, 0);
+        if (!section) {
+            window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
         }
     });
 }
@@ -251,10 +251,7 @@ function renderHomePageAndAllSections() {
                     <h3>SomaScents</h3>
                     <p>Discover handcrafted candles that transform your space into a sanctuary of warmth and aroma.</p>
                     <div class="hero-cta-group">
-                        <a href="#candle-collection-section" class="button button-primary">
-                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                            Explore Candles
-                        </a>
+                        <a href="#candle-collection-section" class="button button-primary">Explore Candles</a>
                         <a href="#best-sellers-section" class="button button-outline button-small">Best Sellers</a>
                     </div>
                     <div class="hero-bottom">
@@ -294,7 +291,7 @@ function renderHomePageAndAllSections() {
                     return `
                         <div class="candle-card" data-id="${candle.id}" data-index="${i}">
                             <div class="candle-image">
-                                <img src="${candle.image}" alt="${candle.name}" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
+                                <img src="${candle.image}" alt="${candle.name}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
                                 ${discountPercentage > 0 ? `<div class="discount-badge">-${discountPercentage}%</div>` : ''}
                                 <div class="candle-overlay">
                                     <button class="quick-view-btn" onclick="showCandleDetail('${candle.id}')">Quick View</button>
@@ -345,23 +342,33 @@ function renderHomePageAndAllSections() {
         </section>
 
         <section class="testimonials-section" id="testimonials-section">
-            <h2 class="section-title">Loved by our customers</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-rating">★★★★★</div>
-                    <p class="testimonial-quote">The scents are divine and the jars look stunning on my shelf. Repeat customer for life!</p>
-                    <div class="testimonial-author">Ananya</div>
+            <h2 class="section-title">Our Customers Love Us</h2>
+            <div class="testimonials-carousel">
+                <div class="testimonials-track" id="testimonials-track">
+                    ${[
+                        {name:'Amit', quote:"Good products, good prices. Worth it", stars:5},
+                        {name:'Shalini Garg', quote:"Very nice floral and pleasant fragrance, long lasting too.", stars:5},
+                        {name:'Khushpreet Kaur', quote:"Its fragrance so good 😊.", stars:5},
+                        {name:'Rohit', quote:"Great packaging and fast delivery.", stars:5},
+                        {name:'Meera', quote:"Scent fills the room without being overpowering.", stars:5},
+                        {name:'Aarav', quote:"Perfect gifts. Everyone loved them!", stars:5}
+                    ].map(t => `
+                        <div class="testimonial-card">
+                            <div class="testimonial-rating">${'★'.repeat(t.stars)}</div>
+                            <p class="testimonial-quote">${t.quote}</p>
+                            <div class="testimonial-author">${t.name}</div>
+                        </div>
+                    `).join('')}
                 </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-rating">★★★★★</div>
-                    <p class="testimonial-quote">Long burn time and super clean. Perfect for unwinding after work.</p>
-                    <div class="testimonial-author">Rahul</div>
+                <div class="testimonial-nav">
+                    <button class="testimonial-btn" id="testimonials-prev" aria-label="Previous">‹</button>
+                    <button class="testimonial-btn" id="testimonials-next" aria-label="Next">›</button>
                 </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-rating">★★★★★</div>
-                    <p class="testimonial-quote">Bought as gifts and everyone loved them. Packaging is beautiful too.</p>
-                    <div class="testimonial-author">Priya</div>
-                </div>
+            </div>
+            <div class="rating-summary">
+                <div class="rating-badge">4.7</div>
+                <div class="rating-stars">★★★★★</div>
+                <div class="rating-text">From <strong>324</strong> reviews</div>
             </div>
         </section>
 
@@ -370,13 +377,13 @@ function renderHomePageAndAllSections() {
             <div class="policies-grid">
                 <div class="policy-card">
                     <svg class="policy-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                    <h4>Easy Exchange Policy</h4>
-                    <p>We offer hassle-free exchange policy within 7 days of purchase.</p>
+                    <h4>No Exchange</h4>
+                    <p>Please note, we do not offer exchanges once an order is placed.</p>
                 </div>
                 <div class="policy-card">
                     <svg class="policy-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                    <h4>7 Days Return Policy</h4>
-                    <p>We provide 7 days free return policy for all unused products.</p>
+                    <h4>No Return Policy</h4>
+                    <p>All sales are final. Returns are not accepted.</p>
                 </div>
                 <div class="policy-card">
                     <svg class="policy-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17.555 17.555a1 1 0 01-1.414 0L13 14.414l-2.121 2.121a1 1 0 01-1.414-1.414l2.121-2.121L9.172 11.707a1 1 0 011.414-1.414l2.121 2.121L14.414 11a1 1 0 011.414 1.414l-2.121 2.121L17.555 16.146a1 1 0 010 1.409zM15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -477,11 +484,49 @@ document.querySelectorAll('.candle-card').forEach(card => {
     // Trigger best seller animation if in view
     triggerBestSellersAnimation();
     triggerCandleCollectionAnimation();
+
+    // Testimonials carousel controls
+    const track = document.getElementById('testimonials-track');
+    const prevBtn = document.getElementById('testimonials-prev');
+    const nextBtn = document.getElementById('testimonials-next');
+    if (track && prevBtn && nextBtn) {
+        let startIndex = 0;
+        function updateCarousel(direction) {
+            const cards = Array.from(track.children);
+            const visible = window.innerWidth > 900 ? 3 : 1;
+            const total = cards.length;
+            if (direction === 'next') startIndex = (startIndex + visible) % total;
+            if (direction === 'prev') startIndex = (startIndex - visible + total) % total;
+            // Reorder cards for a simple infinite effect
+            while (track.firstChild) track.removeChild(track.firstChild);
+            const ordered = [];
+            for (let i = 0; i < total; i++) {
+                ordered.push(cards[(startIndex + i) % total]);
+            }
+            ordered.forEach(c => track.appendChild(c));
+        }
+        prevBtn.addEventListener('click', () => updateCarousel('prev'));
+        nextBtn.addEventListener('click', () => updateCarousel('next'));
+
+        // Swipe support for mobile
+        let touchStartX = null;
+        track.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+        track.addEventListener('touchend', (e) => {
+            if (touchStartX === null) return;
+            const dx = e.changedTouches[0].screenX - touchStartX;
+            if (Math.abs(dx) > 40) {
+                updateCarousel(dx < 0 ? 'next' : 'prev');
+            }
+            touchStartX = null;
+        }, { passive: true });
+    }
 }
 
 // Function to show candle detail (for quick view)
 function showCandleDetail(id) {
     navigateTo('detail', id);
+    // Ensure detail opens from top
+    setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }), 0);
 }
 
 // Function to render the detail view of a single candle
@@ -516,6 +561,10 @@ function renderCandleDetail(id) {
                         <p>${candle.scent}</p>
                     </div>
                     <div class="button-group">
+                        <button class="button button-primary" id="add-to-cart-detail-btn">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M16 11V9H8V7h8V5l4 4-4 4zm-6 4H4a2 2 0 01-2-2V5a2 2 0 012-2h6v2H4v8h6v2z"/></svg>
+                            Add to Cart
+                        </button>
                         <button class="button button-secondary" id="back-to-candles-btn">
                             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd"></path></svg>
                             Back to Candles
@@ -528,12 +577,23 @@ function renderCandleDetail(id) {
 
     // Changed to navigate to candles section specifically
     document.getElementById('back-to-candles-btn').addEventListener('click', () => navigateTo('home-and-list', null, 'candle-collection-section'));
+    // Add to cart button on detail page
+    const addBtn = document.getElementById('add-to-cart-detail-btn');
+    if (addBtn) {
+        addBtn.addEventListener('click', () => {
+            addToCart(id, null);
+            addBtn.textContent = 'Added to Cart';
+        });
+    }
+    // Scroll to top after rendering detail
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 } 
 
 // Event listeners for navigation
 document.getElementById('nav-home').addEventListener('click', (e) => {
     e.preventDefault();
-    document.getElementById('home-section').scrollIntoView({ behavior: 'smooth' });
+    const homeEl = document.getElementById('home-section');
+    if (homeEl) { homeEl.scrollIntoView({ behavior: 'auto' }); }
 });
 
 document.getElementById('nav-candles').addEventListener('click', (e) => {
@@ -1001,7 +1061,48 @@ function checkout() {
         showToast('Your cart is empty!');
         return;
     }
-    showToast('Checkout feature coming soon!');
+
+    const storeName = 'SomaScents';
+    const phoneNumber = '+918985665850'; // WhatsApp number
+
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const totalOriginal = cart.reduce((sum, item) => sum + ((item.originalPrice || item.price) * item.quantity), 0);
+    const totalSavings = Math.max(0, totalOriginal - subtotal);
+
+    const lines = [];
+    const canIncludeImages = window.location.protocol.startsWith('http');
+    lines.push(`Hello ${storeName} 👋`);
+    lines.push('');
+    lines.push('*I would like to place an order:*');
+    lines.push('');
+    cart.forEach((item, idx) => {
+        const lineTotal = item.price * item.quantity;
+        const unit = `₹${item.price}`;
+        lines.push(`${idx + 1}. *${item.name}*  x${item.quantity}  —  ₹${lineTotal} (${unit} each)`);
+        if (canIncludeImages) {
+            try {
+                const imageUrl = new URL(item.image, window.location.href).href;
+                if (imageUrl.startsWith('http')) {
+                    lines.push(imageUrl);
+                }
+            } catch (e) { /* ignore */ }
+        }
+    });
+    lines.push('');
+    if (totalSavings > 0) {
+        lines.push(`Savings: *₹${totalSavings}*`);
+    }
+    lines.push(`Total: *₹${subtotal}*`);
+    lines.push('');
+    lines.push('*Customer details (please fill):*');
+    lines.push('Name:');
+    lines.push('Address:');
+    lines.push('Phone:');
+    lines.push('Notes:');
+
+    const message = lines.join('\n');
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
 }
 
 // Initialize cart badge and button states
@@ -1050,7 +1151,7 @@ function renderCandleCollection(candles) {
         return `
             <div class="candle-card" data-candle-id="${candle.id}">
                 <div class="candle-image">
-                    <img src="${candle.image}" alt="${candle.name}" onerror="this.src='${placeholderImageUrl}'">
+                    <img src="${candle.image}" alt="${candle.name}" loading="lazy" decoding="async" onerror="this.src='${placeholderImageUrl}'">
                     ${discountPercentage > 0 ? `<div class="discount-badge">-${discountPercentage}%</div>` : ''}
                     <div class="candle-overlay">
                         <button class="quick-view-btn" onclick="showCandleDetail('${candle.id}')">Quick View</button>
@@ -1152,7 +1253,6 @@ function updateActiveNavLink() {
     const activeNavLink = document.getElementById(activeSection.navId);
     if (activeNavLink) {
         activeNavLink.classList.add('active');
-        console.log('Active section:', activeSection.id, 'Nav link:', activeSection.navId);
     }
 }
 
@@ -1230,7 +1330,6 @@ document.addEventListener('DOMContentLoaded', function() {
     mobileNavLinks.forEach(link => {
         link.addEventListener('click', () => {
             closeMobileSidebar();
-            // Update active state
             mobileNavLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
         });
@@ -1239,26 +1338,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mobile features buttons
     const mobileFavoritesBtn = document.getElementById('mobile-favorites-btn');
     const mobileCartBtn = document.getElementById('mobile-cart-btn');
-
-                if (mobileFavoritesBtn) {
-                mobileFavoritesBtn.addEventListener('click', () => {
-                    closeMobileSidebar();
-                    // Navigate to favorites page
-                    window.location.href = 'favorites.html';
-                });
-            }
-
-            if (mobileCartBtn) {
-                mobileCartBtn.addEventListener('click', () => {
-                    closeMobileSidebar();
-                    // Show cart modal
-                    showCartModal();
-                });
-            }
+    if (mobileFavoritesBtn) {
+        mobileFavoritesBtn.addEventListener('click', () => {
+            closeMobileSidebar();
+            window.location.href = 'favorites.html';
+        });
+    }
+    if (mobileCartBtn) {
+        mobileCartBtn.addEventListener('click', () => {
+            closeMobileSidebar();
+            showCartModal();
+        });
+    }
 
     // Close sidebar on escape key
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && mobileSidebar.classList.contains('open')) {
+        if (e.key === 'Escape' && mobileSidebar && mobileSidebar.classList.contains('open')) {
             closeMobileSidebar();
         }
     });
@@ -1322,7 +1417,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const button = target.closest('.add-to-favorites-btn');
             const candleId = button.getAttribute('data-candle-id');
-            console.log('Favorites button clicked, candleId:', candleId);
             if (candleId) {
                 toggleFavorite(candleId, event);
             }
@@ -1337,7 +1431,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const button = target.closest('.add-to-cart-btn');
             const candleId = button.getAttribute('data-candle-id');
-            console.log('Cart button clicked, candleId:', candleId);
             if (candleId) {
                 addToCart(candleId, event);
             }
