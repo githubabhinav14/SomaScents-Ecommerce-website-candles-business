@@ -1,5 +1,13 @@
 // Common image URL that serves as a placeholder (to be replaced by you)
 const placeholderImageUrl = 'Comming Soon.jpg';
+const blankPlaceholder = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3C/svg%3E';
+
+// DOM content loaded event handler
+document.addEventListener('DOMContentLoaded', function() {
+    // Images are now loaded directly with src attribute
+    // No need for lazy loading initialization
+});
+
 
 // Cart functionality - declare cart variable globally
 let cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
@@ -186,8 +194,13 @@ function fadeTransition(callback) {
         appRoot.classList.remove('fade-out');
         appRoot.classList.add('fade-in');
         spinner.classList.remove('active');
+        // Initialize lazy loading after page transition
+        initLazyLoading();
     }, 500);
 }
+
+// Images are now loaded directly with src attribute
+// Lazy loading is handled by the browser's native loading="lazy" attribute
 
 function setActiveNavLink() {
     const navLinks = document.querySelectorAll('nav ul li a');
@@ -264,7 +277,7 @@ function renderHomePageAndAllSections() {
                     </div>
                 </div>
                 <div class="hero-image-gallery">
-                    <img src="candles_images/Peony Jar Candle.jpg" alt="Hero Candle" style="width:100%;height:100%;object-fit:contain;border-radius:0.75rem;" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
+                    <img src="candles_images/Peony Jar Candle.jpg" alt="Hero Candle" style="width:100%;height:100%;object-fit:contain;border-radius:0.75rem;" fetchpriority="high" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
                 </div>
             </div>
             <div class="scroll-indicator">
@@ -332,7 +345,7 @@ function renderHomePageAndAllSections() {
             <div class="best-sellers-grid">
                 ${bestSellersData.map((item, i) => `
                     <div class="best-seller-card" data-id="${item.id}" data-index="${i}">
-                        <img src="${item.image}" alt="${item.name}" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
+                        <img src="${item.image}" alt="${item.name}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
                         <h4>${item.name}</h4>
                         <p class="category">${item.category}</p>
                         <p class="price">₹${item.price.toFixed(0)}</p>
@@ -485,41 +498,8 @@ document.querySelectorAll('.candle-card').forEach(card => {
     triggerBestSellersAnimation();
     triggerCandleCollectionAnimation();
 
-    // Testimonials carousel controls
-    const track = document.getElementById('testimonials-track');
-    const prevBtn = document.getElementById('testimonials-prev');
-    const nextBtn = document.getElementById('testimonials-next');
-    if (track && prevBtn && nextBtn) {
-        let startIndex = 0;
-        function updateCarousel(direction) {
-            const cards = Array.from(track.children);
-            const visible = window.innerWidth > 900 ? 3 : 1;
-            const total = cards.length;
-            if (direction === 'next') startIndex = (startIndex + visible) % total;
-            if (direction === 'prev') startIndex = (startIndex - visible + total) % total;
-            // Reorder cards for a simple infinite effect
-            while (track.firstChild) track.removeChild(track.firstChild);
-            const ordered = [];
-            for (let i = 0; i < total; i++) {
-                ordered.push(cards[(startIndex + i) % total]);
-            }
-            ordered.forEach(c => track.appendChild(c));
-        }
-        prevBtn.addEventListener('click', () => updateCarousel('prev'));
-        nextBtn.addEventListener('click', () => updateCarousel('next'));
-
-        // Swipe support for mobile
-        let touchStartX = null;
-        track.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-        track.addEventListener('touchend', (e) => {
-            if (touchStartX === null) return;
-            const dx = e.changedTouches[0].screenX - touchStartX;
-            if (Math.abs(dx) > 40) {
-                updateCarousel(dx < 0 ? 'next' : 'prev');
-            }
-            touchStartX = null;
-        }, { passive: true });
-    }
+    // Testimonial carousel is now handled in deferred-scripts.js
+    // This prevents conflicts between multiple carousel implementations
 }
 
 // Function to show candle detail (for quick view)
@@ -716,7 +696,7 @@ whatsappBtn.addEventListener('click', () => {
 // Instagram button logic
 const instagramBtn = document.getElementById('instagram-btn');
 instagramBtn.addEventListener('click', () => {
-    const instagramUrl = 'https://www.instagram.com/glowhaven'; // Replace with your actual Instagram handle
+    const instagramUrl = 'https://www.instagram.com/somascents_?igsh=Nmx2enA0eXZ4enRm'; // SomaScents Instagram handle
     window.open(instagramUrl, '_blank');
 });
 
@@ -1053,6 +1033,12 @@ function renderCartModal() {
             <button onclick="checkout()" class="checkout-btn">Proceed to Checkout</button>
         </div>
     `;
+    
+    // Ensure scrolling works properly by scrolling to top when opening cart
+    const cartModalContent = document.querySelector('.cart-modal-content');
+    if (cartModalContent) {
+        cartModalContent.scrollTop = 0;
+    }
 }
 
 // Checkout function
@@ -1437,4 +1423,4 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
     }, true);
-}); 
+});
