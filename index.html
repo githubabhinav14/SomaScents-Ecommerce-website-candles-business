@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SomaScents - Home of Exquisite Candles</title>
+    <link rel="icon" href="favicon.png" type="image/png">
     <!-- Preconnect to required domains for faster resource loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +28,9 @@
     
     <!-- Load main CSS with defer loading -->
     <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="shop-by-category.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="styles.css"></noscript>
+    <noscript><link rel="stylesheet" href="shop-by-category.css"></noscript>
     
     <!-- Original inline styles - to be removed after testing -->
     
@@ -1496,7 +1499,13 @@
             50% { transform: translateY(-6px); }
         }
 
-        .image-carousel-track { display: none; }
+        .image-carousel-track {
+            display: flex;
+            width: 400%;
+            height: 100%;
+            animation: scroll-images 16s infinite;
+            position: relative;
+        }
 
         @media (max-width: 767px) {
             .image-carousel-track {
@@ -1505,15 +1514,26 @@
         }
 
         .image-carousel-track img {
-            width: 100%;
+            width: 25%;
             height: 100%;
             object-fit: contain;
-            background: #ffffff;
             flex-shrink: 0;
             border-radius: 0.75rem;
+            background-color: #f8fafc;
+            box-sizing: border-box;
         }
 
-        /* Carousel animation removed for single image hero */
+        @keyframes scroll-images {
+            0% { transform: translateX(0); }
+            22% { transform: translateX(0); }
+            25% { transform: translateX(-25%); }
+            47% { transform: translateX(-25%); }
+            50% { transform: translateX(-50%); }
+            72% { transform: translateX(-50%); }
+            75% { transform: translateX(-75%); }
+            97% { transform: translateX(-75%); }
+            100% { transform: translateX(0); }
+        }
 
         /* Candle List Grid */
         .candle-grid {
@@ -1811,7 +1831,7 @@
             .hero-text-content h3 { font-size: 2.6rem; }
             .hero-text-content p { font-size: 1rem; }
 
-            .hero-image-gallery { display: none; }
+            .hero-image-gallery { display: block; width: 280px; height: 280px; margin: 0 auto; }
             .hero-cta-group { justify-content: center; }
             .hero-trust-badges { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
 
@@ -2144,6 +2164,7 @@
             padding: 5rem 1rem 6rem;
             position: relative;
             overflow: hidden;
+            text-align: center;
         }
         
         .testimonials-section::before {
@@ -2160,6 +2181,9 @@
             margin-bottom: 3rem;
             position: relative;
             display: inline-block;
+            color: #333;
+            font-size: 2.5rem;
+            font-weight: 700;
         }
         
         .testimonials-section .section-title::after {
@@ -2200,6 +2224,7 @@
             justify-content: center;
             flex: 0 0 calc(33.333% - 0.85rem);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 0 auto;
         }
         
         .testimonial-card:hover {
@@ -2221,20 +2246,14 @@
             font-style: italic;
             line-height: 1.5;
             position: relative;
-        }
-        
-        .testimonial-quote::before,
-        .testimonial-quote::after {
-            content: '"';
-            color: #d97706;
-            font-size: 1.2em;
-            font-weight: bold;
+            font-size: 1rem;
         }
         
         .testimonial-author { 
             color: #111827; 
             font-weight: 700;
             margin-top: auto;
+            font-size: 1.1rem;
         }
         
         .testimonial-nav { 
@@ -2292,7 +2311,7 @@
         .rating-summary { display:flex; align-items:center; gap:1rem; width:fit-content; margin: 1.25rem auto 0; padding:.75rem 1rem; border:1px solid #e5e7eb; border-radius:.5rem; background:#fff; box-shadow:0 4px 12px rgba(0,0,0,0.06); }
         .rating-badge { background:#111827; color:#fff; font-weight:800; border-radius:.5rem; padding:.35rem .7rem; min-width:44px; text-align:center; }
         .rating-stars { color:#f59e0b; letter-spacing:1px; font-size:1.1rem; }
-        .rating-text { color:#374151; }
+        .rating-text { color:#374151; font-weight:500; }
 
         /* Policies Section */
         .policies-section {
@@ -3271,7 +3290,7 @@
         <div class="container flex">
             <!-- Logo - Left side -->
             <div class="logo">
-                <h1><span class="text-amber-400">Soma</span>Scents</h1>
+                <h1><img src="faviconn.png" alt="SomaScents Logo" style="height: 45px; width: auto; margin-right: 10px; vertical-align: middle;"><span class="text-amber-400">Soma</span>Scents</h1>
             </div>
             
             <!-- Navigation - Center -->
@@ -3396,6 +3415,44 @@
     <main id="app-root">
         <!-- Content will be rendered here by JavaScript -->
     </main>
+
+            <div class="best-seller-card" onclick="window.location.href='category.html?type=floral'" data-index="0">
+                <img src="Comming Soon.jpg" alt="Floral Candles" loading="lazy" decoding="async">
+                <h4>Floral Candles</h4>
+                <div class="category">Discover our collection of beautiful floral-scented candles</div>
+                <div class="price">
+                    <a href="category.html?type=floral" class="category-link">Shop Now</a>
+                </div>
+            </div>
+            
+            <div class="best-seller-card" onclick="window.location.href='category.html?type=vanilla'" data-index="1">
+                <img src="Comming Soon.jpg" alt="Vanilla Candles" loading="lazy" decoding="async">
+                <h4>Vanilla Candles</h4>
+                <div class="category">Explore our warm and comforting vanilla-scented candles</div>
+                <div class="price">
+                    <a href="category.html?type=vanilla" class="category-link">Shop Now</a>
+                </div>
+            </div>
+            
+            <div class="best-seller-card" onclick="window.location.href='category.html?type=lavender'" data-index="2">
+                <img src="Comming Soon.jpg" alt="Lavender Candles" loading="lazy" decoding="async">
+                <h4>Lavender Candles</h4>
+                <div class="category">Relax with our soothing lavender-scented candles</div>
+                <div class="price">
+                    <a href="category.html?type=lavender" class="category-link">Shop Now</a>
+                </div>
+            </div>
+            
+            <div class="best-seller-card" onclick="window.location.href='category.html?type=rose'" data-index="3">
+                <img src="Comming Soon.jpg" alt="Rose Candles" loading="lazy" decoding="async">
+                <h4>Rose Candles</h4>
+                <div class="category">Indulge in our romantic rose-scented candles</div>
+                <div class="price">
+                    <a href="category.html?type=rose" class="category-link">Shop Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer>
         <div class="container footer-content">

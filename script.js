@@ -6,7 +6,58 @@ const blankPlaceholder = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/200
 document.addEventListener('DOMContentLoaded', function() {
     // Images are now loaded directly with src attribute
     // No need for lazy loading initialization
+    
+    // Initialize category page if on category.html
+    if (window.location.pathname.includes('category.html')) {
+        initCategoryPage();
+    }
 });
+
+// Initialize category page
+function initCategoryPage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryType = urlParams.get('type');
+    
+    // Category descriptions
+    const categoryDescriptions = {
+        'floral': 'Our floral candles feature delicate and enchanting scents inspired by beautiful flowers. Perfect for creating a fresh and inviting atmosphere.',
+        'vanilla': 'Indulge in the warm and comforting aroma of our vanilla candles. These sweet-scented candles create a cozy and inviting ambiance.',
+        'lavender': 'Experience the calming and soothing properties of our lavender candles. Ideal for relaxation and creating a peaceful environment.',
+        'rose': 'Our rose-scented candles offer a romantic and elegant fragrance that adds sophistication to any space. Perfect for special occasions.'
+    };
+    
+    // Category titles (capitalized)
+    const categoryTitles = {
+        'floral': 'Floral Candles',
+        'vanilla': 'Vanilla Candles',
+        'lavender': 'Lavender Candles',
+        'rose': 'Rose Candles'
+    };
+    
+    // Set page title and description
+    if (categoryType && categoryTitles[categoryType]) {
+        document.title = `SomaScents - ${categoryTitles[categoryType]}`;
+        const titleElement = document.getElementById('category-title');
+        const descriptionElement = document.getElementById('category-description');
+        
+        if (titleElement) titleElement.textContent = categoryTitles[categoryType];
+        if (descriptionElement) descriptionElement.textContent = categoryDescriptions[categoryType] || '';
+        
+        // Filter and display products
+        filterProductsByCategory(categoryType);
+    } else {
+        // Handle invalid category
+        const titleElement = document.getElementById('category-title');
+        const descriptionElement = document.getElementById('category-description');
+        const productsContainer = document.getElementById('category-products');
+        const noProductsElement = document.getElementById('no-products');
+        
+        if (titleElement) titleElement.textContent = 'Category Not Found';
+        if (descriptionElement) descriptionElement.textContent = 'The requested category does not exist. Please return to our main collection.';
+        if (productsContainer) productsContainer.style.display = 'none';
+        if (noProductsElement) noProductsElement.style.display = 'block';
+    }
+}
 
 
 // Cart functionality - declare cart variable globally
@@ -122,6 +173,24 @@ const candlesData = [
         image: 'candles_images/Scented Floating Daisy Candles.jpg',
         description: 'A pack of six floating candles with a floral daisy fragrance, perfect for creating a serene and elegant ambiance.',
         scent: 'Floral'
+    },
+    {
+        id: '14',
+        name: 'Luxury Marble Jar Candle',
+        price: 299,
+        originalPrice: 399,
+        image: 'candles_images/IMG_20250610_202641.jpg',
+        description: 'An elegant marble jar candle with a sophisticated design, perfect for adding a touch of luxury to any room.',
+        scent: 'Sandalwood, Vanilla'
+    },
+    {
+        id: '15',
+        name: 'Elegant Floral Candle Set',
+        price: 319,
+        originalPrice: 399,
+        image: 'candles_images/IMG_20250703_202103_668.jpg',
+        description: 'A beautiful set of floral-designed candles that bring a touch of nature and elegance to your home decor.',
+        scent: 'Rose, Jasmine'
     }
 ];
 
@@ -197,6 +266,301 @@ function fadeTransition(callback) {
         // Initialize lazy loading after page transition
         initLazyLoading();
     }, 500);
+}
+
+// Filter products by category for category.html page
+function filterProductsByCategory(category) {
+    // Get products that match the category
+    const filteredProducts = candlesData.filter(candle => {
+        return candle.scent.toLowerCase().includes(category.toLowerCase());
+    });
+    
+    // Display filtered products or show no products message
+    const productsContainer = document.getElementById('category-products');
+    const noProductsElement = document.getElementById('no-products');
+    
+    if (filteredProducts.length > 0) {
+        renderCategoryProducts(filteredProducts);
+        if (productsContainer) productsContainer.style.display = 'grid';
+        if (noProductsElement) noProductsElement.style.display = 'none';
+    } else {
+        if (productsContainer) productsContainer.style.display = 'none';
+        if (noProductsElement) noProductsElement.style.display = 'block';
+    }
+}
+
+// Render category products
+function renderCategoryProducts(products) {
+    const productsContainer = document.getElementById('category-products');
+    if (!productsContainer) return;
+    
+    productsContainer.innerHTML = products.map(candle => {
+        const originalPrice = candle.originalPrice || candle.price;
+        const discount = originalPrice > candle.price ? originalPrice - candle.price : 0;
+        const discountPercentage = discount > 0 ? Math.round((discount / originalPrice) * 100) : 0;
+        
+        // Check if item is in cart or favorites
+        const cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
+        const isInCart = cart.some(item => item.id === candle.id);
+        const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+        const isFavorite = favorites.includes(candle.id);
+        
+        return `
+            <div class="candle-card" data-candle-id="${candle.id}">
+                <div class="candle-image">
+                    <img src="${candle.image}" alt="${candle.name}" loading="lazy" decoding="async">
+                    ${discountPercentage > 0 ? `<div class="discount-badge">-${discountPercentage}%</div>` : ''}
+                    <div class="candle-overlay">
+                        <button class="quick-view-btn" onclick="showCandleDetail('${candle.id}')">Quick View</button>
+                    </div>
+                </div>
+                <div class="buy-now-container">
+                    <button type="button" class="buy-now-btn" onclick="showCandleDetail('${candle.id}')" aria-label="Buy ${candle.name}">Buy Now</button>
+                </div>
+                <div class="candle-info">
+                    <h3>${candle.name}</h3>
+                    <p class="candle-description">${candle.description}</p>
+                    <p class="candle-scent"><strong>Scent:</strong> ${candle.scent}</p>
+                    <div class="candle-price">
+                        ${discount > 0 ? `<span class="original-price">₹${originalPrice}</span>` : ''}
+                        <span class="current-price">₹${candle.price}</span>
+                    </div>
+                    <div class="candle-actions">
+                        <button type="button" class="add-to-favorites-btn ${isFavorite ? 'added-to-favorites' : ''}" data-candle-id="${candle.id}" title="${isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="add-to-cart-btn ${isInCart ? 'added-to-cart' : ''}" data-candle-id="${candle.id}" title="${isInCart ? 'Added to Cart' : 'Add to Cart'}">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    // Initialize button states
+    initializeButtonStates();
+}
+
+// Show candle detail for Quick View and Buy Now buttons on category page
+function showCandleDetail(candleId) {
+    const candle = candlesData.find(c => c.id === candleId);
+    if (!candle) return;
+    
+    // Create modal for candle detail
+    const modal = document.createElement('div');
+    modal.className = 'candle-detail-modal';
+    
+    const originalPrice = candle.originalPrice || candle.price;
+    const discount = originalPrice > candle.price ? originalPrice - candle.price : 0;
+    const discountPercentage = discount > 0 ? Math.round((discount / originalPrice) * 100) : 0;
+    
+    // Check if item is in cart or favorites
+    const cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
+    const isInCart = cart.some(item => item.id === candle.id);
+    const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+    const isFavorite = favorites.includes(candle.id);
+    
+    modal.innerHTML = `
+        <div class="candle-detail-content">
+            <button class="close-detail-btn">&times;</button>
+            <div class="candle-detail-grid">
+                <div class="candle-detail-image">
+                    <img src="${candle.image}" alt="${candle.name}">
+                    ${discountPercentage > 0 ? `<div class="discount-badge">-${discountPercentage}%</div>` : ''}
+                </div>
+                <div class="candle-detail-info">
+                    <h2>${candle.name}</h2>
+                    <p class="candle-detail-description">${candle.description}</p>
+                    <p class="candle-detail-scent"><strong>Scent:</strong> ${candle.scent}</p>
+                    <div class="candle-detail-price">
+                        ${discount > 0 ? `<span class="original-price">₹${originalPrice}</span>` : ''}
+                        <span class="current-price">₹${candle.price}</span>
+                    </div>
+                    <div class="candle-detail-quantity">
+                        <label for="quantity">Quantity:</label>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn decrease">-</button>
+                            <input type="number" id="quantity" value="1" min="1" max="10">
+                            <button class="quantity-btn increase">+</button>
+                        </div>
+                    </div>
+                    <div class="candle-detail-actions">
+                        <button class="add-to-cart-detail-btn ${isInCart ? 'added-to-cart' : ''}" data-candle-id="${candle.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                            </svg>
+                            ${isInCart ? 'Added to Cart' : 'Add to Cart'}
+                        </button>
+                        <button class="add-to-favorites-detail-btn ${isFavorite ? 'added-to-favorites' : ''}" data-candle-id="${candle.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            ${isFavorite ? 'Saved' : 'Save for Later'}
+                        </button>
+                    </div>
+                    <div class="candle-detail-features">
+                        <div class="feature">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                            <span>Hand-poured</span>
+                        </div>
+                        <div class="feature">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                            </svg>
+                            <span>Natural wax</span>
+                        </div>
+                        <div class="feature">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            <span>Long-lasting</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Prevent scrolling when modal is open
+    document.body.style.overflow = 'hidden';
+    
+    // Close modal
+    const closeBtn = modal.querySelector('.close-detail-btn');
+    closeBtn.addEventListener('click', () => {
+        document.body.removeChild(modal);
+        document.body.style.overflow = 'auto';
+    });
+    
+    // Close modal when clicking outside
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+            document.body.style.overflow = 'auto';
+        }
+    });
+    
+    // Quantity controls
+    const quantityInput = modal.querySelector('#quantity');
+    const decreaseBtn = modal.querySelector('.quantity-btn.decrease');
+    const increaseBtn = modal.querySelector('.quantity-btn.increase');
+    
+    decreaseBtn.addEventListener('click', () => {
+        const currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+        }
+    });
+    
+    increaseBtn.addEventListener('click', () => {
+        const currentValue = parseInt(quantityInput.value);
+        if (currentValue < 10) {
+            quantityInput.value = currentValue + 1;
+        }
+    });
+    
+    // Add to cart from detail
+    const addToCartBtn = modal.querySelector('.add-to-cart-detail-btn');
+    addToCartBtn.addEventListener('click', () => {
+        const quantity = parseInt(quantityInput.value);
+        addToCartWithQuantity(candle.id, quantity);
+        addToCartBtn.classList.add('added-to-cart');
+        addToCartBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+            Added to Cart
+        `;
+    });
+    
+    // Add to favorites from detail
+    const addToFavoritesBtn = modal.querySelector('.add-to-favorites-detail-btn');
+    addToFavoritesBtn.addEventListener('click', () => {
+        toggleFavoriteDetail(candle.id, addToFavoritesBtn);
+    });
+}
+
+// Add to cart with quantity
+function addToCartWithQuantity(candleId, quantity) {
+    const candle = candlesData.find(c => c.id === candleId);
+    if (!candle) return;
+    
+    let cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
+    const existingItem = cart.find(item => item.id === candleId);
+    
+    if (existingItem) {
+        existingItem.quantity += quantity;
+    } else {
+        cart.push({
+            id: candleId,
+            name: candle.name,
+            price: candle.price,
+            image: candle.image,
+            quantity: quantity
+        });
+    }
+    
+    localStorage.setItem('glowhaven_cart', JSON.stringify(cart));
+    updateCartBadge();
+    
+    // Update all add to cart buttons for this candle
+    document.querySelectorAll(`.add-to-cart-btn[data-candle-id="${candleId}"]`).forEach(button => {
+        button.classList.add('added-to-cart');
+        button.title = 'Added to Cart';
+    });
+    
+    showToast('Added to cart');
+}
+
+// Toggle favorite from detail
+function toggleFavoriteDetail(candleId, button) {
+    let favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+    
+    if (favorites.includes(candleId)) {
+        // Remove from favorites
+        favorites = favorites.filter(id => id !== candleId);
+        button.classList.remove('added-to-favorites');
+        button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            Save for Later
+        `;
+        showToast('Removed from favorites');
+    } else {
+        // Add to favorites
+        favorites.push(candleId);
+        button.classList.add('added-to-favorites');
+        button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            Saved
+        `;
+        showToast('Added to favorites');
+    }
+    
+    localStorage.setItem('glowhaven_favorites', JSON.stringify(favorites));
+    
+    // Update all favorite buttons for this candle
+    document.querySelectorAll(`.add-to-favorites-btn[data-candle-id="${candleId}"]`).forEach(btn => {
+        if (favorites.includes(candleId)) {
+            btn.classList.add('added-to-favorites');
+            btn.title = 'Remove from Favorites';
+        } else {
+            btn.classList.remove('added-to-favorites');
+            btn.title = 'Add to Favorites';
+        }
+    });
 }
 
 // Images are now loaded directly with src attribute
@@ -277,7 +641,12 @@ function renderHomePageAndAllSections() {
                     </div>
                 </div>
                 <div class="hero-image-gallery">
-                    <img src="candles_images/Peony Jar Candle.jpg" alt="Hero Candle" style="width:100%;height:100%;object-fit:contain;border-radius:0.75rem;" fetchpriority="high" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
+                    <div class="image-carousel-track">
+                        <img src="candles_images/Peony Jar Candle.jpg" alt="Hero Candle" fetchpriority="high" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
+                        <img src="candles_images/Rose Heart Jar Candle.jpg" alt="Rose Heart Jar Candle" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
+                        <img src="candles_images/Lavender Marble Jar Candle.jpg" alt="Lavender Marble Jar Candle" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
+                        <img src="candles_images/Daisy Marble Candle.jpg" alt="Daisy Marble Candle" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
+                    </div>
                 </div>
             </div>
             <div class="scroll-indicator">
@@ -285,6 +654,143 @@ function renderHomePageAndAllSections() {
                     <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
                 Scroll
+            </div>
+        </section>
+
+        <section class="container py-8" id="new-arrivals-section">
+            <h2 class="section-title">New Arrivals</h2>
+            <div class="candle-grid">
+                <div class="candle-card" data-id="13">
+                    <div class="candle-image">
+                        <img src="Comming Soon.jpg" alt="Scented Floating Daisy Candles" loading="lazy" decoding="async">
+                        <div class="discount-badge">-15%</div>
+                        <div class="candle-overlay">
+                            <button class="quick-view-btn" onclick="showCandleDetail('13')">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="buy-now-container">
+                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('13')" aria-label="Buy Scented Floating Daisy Candles">Buy Now</button>
+                    </div>
+                    <div class="candle-info">
+                        <h3>Scented Floating Daisy Candles</h3>
+                        <p class="candle-description">Beautiful floating candles with a fresh daisy design, perfect for creating a serene atmosphere in water displays.</p>
+                        <p class="candle-scent"><strong>Scent:</strong> Floral, Fresh</p>
+                        <div class="candle-price">
+                            <span class="original-price">₹299</span>
+                            <span class="current-price">₹249</span>
+                        </div>
+                        <div class="candle-actions">
+                            <button type="button" class="add-to-favorites-btn" data-candle-id="13" title="Add to Favorites">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="add-to-cart-btn" data-candle-id="13" title="Add to Cart">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="candle-card" data-id="14">
+                    <div class="candle-image">
+                        <img src="candles_images/IMG_20250610_202641.jpg" alt="Luxury Marble Jar Candle" loading="lazy" decoding="async">
+                        <div class="candle-overlay">
+                            <button class="quick-view-btn" onclick="showCandleDetail('14')">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="buy-now-container">
+                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('14')" aria-label="Buy Luxury Marble Jar Candle">Buy Now</button>
+                    </div>
+                    <div class="candle-info">
+                        <h3>Luxury Marble Jar Candle</h3>
+                        <p class="candle-description">An elegant marble jar candle with a sophisticated design, perfect for adding a touch of luxury to any room.</p>
+                        <p class="candle-scent"><strong>Scent:</strong> Sandalwood, Vanilla</p>
+                        <div class="candle-price">
+                            <span class="current-price">₹299</span>
+                        </div>
+                        <div class="candle-actions">
+                            <button type="button" class="add-to-favorites-btn" data-candle-id="14" title="Add to Favorites">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="add-to-cart-btn" data-candle-id="14" title="Add to Cart">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="candle-card" data-id="15">
+                    <div class="candle-image">
+                        <img src="candles_images/IMG_20250703_202103_668.jpg" alt="Elegant Floral Candle Set" loading="lazy" decoding="async">
+                        <div class="discount-badge">-20%</div>
+                        <div class="candle-overlay">
+                            <button class="quick-view-btn" onclick="showCandleDetail('15')">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="buy-now-container">
+                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('15')" aria-label="Buy Elegant Floral Candle Set">Buy Now</button>
+                    </div>
+                    <div class="candle-info">
+                        <h3>Elegant Floral Candle Set</h3>
+                        <p class="candle-description">A beautiful set of floral-designed candles that bring a touch of nature and elegance to your home decor.</p>
+                        <p class="candle-scent"><strong>Scent:</strong> Rose, Jasmine</p>
+                        <div class="candle-price">
+                            <span class="original-price">₹399</span>
+                            <span class="current-price">₹319</span>
+                        </div>
+                        <div class="candle-actions">
+                            <button type="button" class="add-to-favorites-btn" data-candle-id="15" title="Add to Favorites">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="add-to-cart-btn" data-candle-id="15" title="Add to Cart">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="candle-card" data-id="16">
+                    <div class="candle-image">
+                        <img src="candles_images/Comming Soon.jpg" alt="Seasonal Limited Edition Candle" loading="lazy" decoding="async">
+                        <div class="candle-overlay">
+                            <button class="quick-view-btn" onclick="showCandleDetail('16')">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="buy-now-container">
+                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('16')" aria-label="Buy Seasonal Limited Edition Candle">Buy Now</button>
+                    </div>
+                    <div class="candle-info">
+                        <h3>Seasonal Limited Edition Candle</h3>
+                        <p class="candle-description">A special limited edition candle with seasonal fragrances, perfect for celebrating special occasions.</p>
+                        <p class="candle-scent"><strong>Scent:</strong> Seasonal Blend</p>
+                        <div class="candle-price">
+                            <span class="current-price">₹349</span>
+                        </div>
+                        <div class="candle-actions">
+                            <button type="button" class="add-to-favorites-btn" data-candle-id="16" title="Add to Favorites">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="add-to-cart-btn" data-candle-id="16" title="Add to Cart">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -340,6 +846,55 @@ function renderHomePageAndAllSections() {
             </div>
         </section>
 
+        <section class="container py-8" id="shop-by-category-section">
+            <h2 class="section-title">Shop By Category</h2>
+            <div class="category-grid">
+                <div class="category-card" onclick="window.location.href='category.html?type=floral'">
+                    <div class="category-image">
+                        <img src="candles_images/Scented Floating Daisy Candles.jpg" alt="Floral Candles" loading="lazy" decoding="async">
+                    </div>
+                    <div class="category-info">
+                        <h3>Floral Candles</h3>
+                        <p class="category-description">Discover our collection of beautiful floral-scented candles</p>
+                        <a href="category.html?type=floral" class="shop-now-btn">Shop Now</a>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='category.html?type=vanilla'">
+                    <div class="category-image">
+                        <img src="candles_images/IMG_20250610_202641.jpg" alt="Vanilla Candles" loading="lazy" decoding="async">
+                    </div>
+                    <div class="category-info">
+                        <h3>Vanilla Candles</h3>
+                        <p class="category-description">Explore our warm and comforting vanilla-scented candles</p>
+                        <a href="category.html?type=vanilla" class="shop-now-btn">Shop Now</a>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='category.html?type=lavender'">
+                    <div class="category-image">
+                        <img src="candles_images/Lavender Marble Jar Candle.jpg" alt="Lavender Candles" loading="lazy" decoding="async">
+                    </div>
+                    <div class="category-info">
+                        <h3>Lavender Candles</h3>
+                        <p class="category-description">Relax with our soothing lavender-scented candles</p>
+                        <a href="category.html?type=lavender" class="shop-now-btn">Shop Now</a>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='category.html?type=rose'">
+                    <div class="category-image">
+                        <img src="candles_images/Rose Heart Jar Candle.jpg" alt="Rose Candles" loading="lazy" decoding="async">
+                    </div>
+                    <div class="category-info">
+                        <h3>Rose Candles</h3>
+                        <p class="category-description">Indulge in our romantic rose-scented candles</p>
+                        <a href="category.html?type=rose" class="shop-now-btn">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="best-sellers-section" id="best-sellers-section">
             <h2 class="section-title">Best Sellers</h2>
             <div class="best-sellers-grid">
@@ -361,14 +916,14 @@ function renderHomePageAndAllSections() {
                     ${[
                         {name:'Amit', quote:"Good products, good prices. Worth it", stars:5},
                         {name:'Shalini Garg', quote:"Very nice floral and pleasant fragrance, long lasting too.", stars:5},
-                        {name:'Khushpreet Kaur', quote:"Its fragrance so good 😊.", stars:5},
+                        {name:'Khushpreet Kaur', quote:"Its fragrance so good", stars:5},
                         {name:'Rohit', quote:"Great packaging and fast delivery.", stars:5},
                         {name:'Meera', quote:"Scent fills the room without being overpowering.", stars:5},
                         {name:'Aarav', quote:"Perfect gifts. Everyone loved them!", stars:5}
                     ].map(t => `
                         <div class="testimonial-card">
                             <div class="testimonial-rating">${'★'.repeat(t.stars)}</div>
-                            <p class="testimonial-quote">${t.quote}</p>
+                            <p class="testimonial-quote">"${t.quote}"</p>
                             <div class="testimonial-author">${t.name}</div>
                         </div>
                     `).join('')}
@@ -494,9 +1049,10 @@ document.querySelectorAll('.candle-card').forEach(card => {
         navigateTo('detail', candleId);
     });
 });
-    // Trigger best seller animation if in view
+    // Trigger animations if in view
     triggerBestSellersAnimation();
     triggerCandleCollectionAnimation();
+    triggerShopByCategoryAnimation();
 
     // Testimonial carousel is now handled in deferred-scripts.js
     // This prevents conflicts between multiple carousel implementations
@@ -623,6 +1179,22 @@ function showToast(message) {
 // Intersection Observer for best sellers wave animation
 function triggerBestSellersAnimation() {
     const section = document.getElementById('best-sellers-section');
+    const cards = section ? section.querySelectorAll('.best-seller-card') : [];
+    if (!section || !cards.length) return;
+    const observer = new window.IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                cards.forEach(card => card.classList.add('visible'));
+                obs.disconnect();
+            }
+        });
+    }, { threshold: 0.2 });
+    observer.observe(section);
+}
+
+// Intersection Observer for shop by category section animation
+function triggerShopByCategoryAnimation() {
+    const section = document.getElementById('shop-by-category-section');
     const cards = section ? section.querySelectorAll('.best-seller-card') : [];
     if (!section || !cards.length) return;
     const observer = new window.IntersectionObserver((entries, obs) => {

@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SomaScents - Shop by Category</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <!-- Preconnect to required domains for faster resource loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- Load critical fonts first with font-display:swap for better performance -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <!-- Fallback for browsers that don't support JS loading of CSS -->
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    </noscript>
+    
+    <!-- Critical CSS inlined for faster rendering -->
+    <style>
+        /* Critical CSS for above-the-fold content */
+        @import url('critical.css');
+    </style>
+    
+    <!-- Preload critical CSS file -->
+    <link rel="preload" href="critical.css" as="style">
+    
+    <!-- Load main CSS with defer loading -->
+    <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="styles.css"></noscript>
+    
+    <!-- Load JavaScript with defer attribute for better performance -->
+    <script src="script.js" defer></script>
+    <script src="deferred-scripts.js" defer></script>
+    
+    <style>
+        /* Basic styles for category page */
+        .category-header {
+            text-align: center;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            margin-bottom: 2rem;
+            border-radius: 0.5rem;
+        }
+        
+        .category-title {
+            font-size: 2.5rem;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-description {
+            font-size: 1.1rem;
+            color: #78350f;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin: 2rem 0;
+            color: #d97706;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #92400e;
+            text-decoration: underline;
+        }
+        
+        .no-products {
+            text-align: center;
+            padding: 3rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container flex">
+            <div class="logo">
+                <h1><img src="faviconn.png" alt="SomaScents Logo" style="height: 45px; width: auto; margin-right: 10px; vertical-align: middle;"><span>Soma</span>Scents</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html#home-section">Home</a></li>
+                    <li><a href="index.html#candle-collection-section">Candles</a></li>
+                    <li><a href="index.html#about-section-link">About Us</a></li>
+                    <li><a href="index.html#contact-section-link">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-features">
+                <div class="search-container">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="search-input" class="search-input" placeholder="Search candles...">
+                </div>
+                <button id="favorites-btn" aria-label="View Favorites">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </button>
+                <button id="cart-btn" aria-label="View Cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                    </svg>
+                    <span id="cart-badge" class="cart-badge">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="category-header">
+                <h1 class="category-title" id="category-title">Loading Category...</h1>
+                <p class="category-description" id="category-description"></p>
+            </div>
+            
+            <a href="index.html" class="back-link">&larr; Back to Home</a>
+            
+            <div id="category-products" class="candle-grid">
+                <!-- Products will be loaded here dynamically -->
+            </div>
+            
+            <div id="no-products" class="no-products" style="display: none;">
+                <h3>No products found in this category</h3>
+                <p>Please try another category or return to our main collection.</p>
+                <a href="index.html#candle-collection-section" class="button button-primary">View All Candles</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-column">
+                <h4>SomaScents</h4>
+                <p>Ignite your senses with our handcrafted candles. Bringing warmth and aroma to every corner of your home, ethically made with love.</p>
+                <p>Premium quality, sustainable materials, and captivating scents for every occasion.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html#home-section">Home</a></li>
+                    <li><a href="index.html#candle-collection-section">Shop Candles</a></li>
+                    <li><a href="index.html#best-sellers-section">Best Sellers</a></li>
+                    <li><a href="index.html#about-section-link">About Us</a></li>
+                    <li><a href="index.html#contact-section-link">Contact</a></li>
+                    <li><a href="index.html#policies-section">Policies</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Customer Service</h4>
+                <ul>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Shipping & Returns</a></li>
+                    <li><a href="#">Track Order</a></li>
+                    <li><a href="#">Gift Cards</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Connect With Us</h4>
+                <p>Stay updated on new scents and special offers!</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Your email address" class="newsletter-input">
+                    <button class="newsletter-button">Subscribe</button>
+                </div>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.76c0-2.503 1.493-3.895 3.776-3.895 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.247 0-1.637.77-1.637 1.562V12h2.773l-.443 2.89h-2.33V22c5.074-.613 9-4.721 9-9.879 0-5.523-4.477-10-10-10z"/></svg></a>
+                    <a href="https://www.instagram.com/somascents_?igsh=Nmx2enA0eXZ4enRm" aria-label="Instagram" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 6.5C7.5 4.015 9.515 2 12 2s4.5 2.015 4.5 4.5v11C16.5 19.985 14.485 22 12 22s-4.5-2.015-4.5-4.5V6.5zm-2 0C5.5 2.91 8.41 0 12 0s6.5 2.91 6.5 6.5v11C18.5 21.09 15.59 24 12 24s-6.5-2.91-6.5-6.5V6.5zM12 9c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z"/></svg></a>
+                    <a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22.28 5.66c-.66.29-1.37.49-2.12.58.76-.45 1.34-1.16 1.62-2.01-.71.42-1.5.73-2.34.89-.67-.71-1.62-1.15-2.67-1.15-2.01 0-3.64 1.63-3.64 3.64 0 .28.03.55.08.81C9.6 9.4 6.36 7.74 4.1 4.74c-.3.51-.47 1.09-.47 1.72 0 1.26.64 2.37 1.62 3.02-.6-.02-1.17-.18-1.67-.46v.05c0 1.76 1.25 3.22 2.91 3.56-.3.08-.61.12-.94.12-.23 0-.46-.02-.68-.07.46 1.45 1.8 2.5 3.39 2.53-1.24.97-2.8 1.55-4.52 1.55-.3 0-.59-.02-.88-.06 1.6 1.03 3.49 1.64 5.54 1.64 6.65 0 10.29-5.51 10.29-10.29 0-.16-.01-.32-.01-.48.71-.51 1.33-1.14 1.82-1.87z"/></svg></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <span>We accept:</span>
+                <div class="payment-icons">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/visa.svg" alt="Visa" width="32" height="20">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/mastercard.svg" alt="Mastercard" width="32" height="20">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/paypal.svg" alt="PayPal" width="32" height="20">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/applepay.svg" alt="Apple Pay" width="32" height="20">
+                </div>
+            </div>
+            <p class="copyright">&copy; <span id="current-year-footer"></span> SomaScents. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-modal-content">
+            <div id="cart-content">
+                <!-- Cart content will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get the category type from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryType = urlParams.get('type');
+        
+        // Category descriptions
+        const categoryDescriptions = {
+            'floral': 'Our floral candles feature delicate and enchanting scents inspired by beautiful flowers. Perfect for creating a fresh and inviting atmosphere.',
+            'vanilla': 'Indulge in the warm and comforting aroma of our vanilla candles. These sweet-scented candles create a cozy and inviting ambiance.',
+            'lavender': 'Experience the calming and soothing properties of our lavender candles. Ideal for relaxation and creating a peaceful environment.',
+            'rose': 'Our rose-scented candles offer a romantic and elegant fragrance that adds sophistication to any space. Perfect for special occasions.'
+        };
+        
+        // Category titles (capitalized)
+        const categoryTitles = {
+            'floral': 'Floral Candles',
+            'vanilla': 'Vanilla Candles',
+            'lavender': 'Lavender Candles',
+            'rose': 'Rose Candles'
+        };
+        
+        // Update page title and description based on category
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set page title and description
+            if (categoryType && categoryTitles[categoryType]) {
+                document.title = `SomaScents - ${categoryTitles[categoryType]}`;
+                document.getElementById('category-title').textContent = categoryTitles[categoryType];
+                document.getElementById('category-description').textContent = categoryDescriptions[categoryType] || '';
+                
+                // Filter and display products
+                filterProductsByCategory(categoryType);
+            } else {
+                // Handle invalid category
+                document.getElementById('category-title').textContent = 'Category Not Found';
+                document.getElementById('category-description').textContent = 'The requested category does not exist. Please return to our main collection.';
+                document.getElementById('category-products').style.display = 'none';
+                document.getElementById('no-products').style.display = 'block';
+            }
+            
+            // Update current year in footer
+            const currentYearElement = document.getElementById('current-year-footer');
+            if (currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear();
+            }
+            
+            // Initialize cart badge
+            updateCartBadge();
+        });
+        
+        // Filter products by category
+        function filterProductsByCategory(category) {
+            // Get products that match the category
+            const filteredProducts = candlesData.filter(candle => {
+                return candle.scent.toLowerCase().includes(category.toLowerCase());
+            });
+            
+            // Display filtered products or show no products message
+            if (filteredProducts.length > 0) {
+                renderCategoryProducts(filteredProducts);
+            } else {
+                document.getElementById('category-products').style.display = 'none';
+                document.getElementById('no-products').style.display = 'block';
+            }
+        }
+        
+        // Render category products
+        function renderCategoryProducts(products) {
+            const productsContainer = document.getElementById('category-products');
+            
+            productsContainer.innerHTML = products.map(candle => {
+                const originalPrice = candle.originalPrice || candle.price;
+                const discount = originalPrice > candle.price ? originalPrice - candle.price : 0;
+                const discountPercentage = discount > 0 ? Math.round((discount / originalPrice) * 100) : 0;
+                
+                // Check if item is in cart or favorites
+                const cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
+                const isInCart = cart.some(item => item.id === candle.id);
+                const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+                const isFavorite = favorites.includes(candle.id);
+                
+                return `
+                    <div class="candle-card" data-candle-id="${candle.id}">
+                        <div class="candle-image">
+                            <img src="${candle.image}" alt="${candle.name}" loading="lazy" decoding="async">
+                            ${discountPercentage > 0 ? `<div class="discount-badge">-${discountPercentage}%</div>` : ''}
+                            <div class="candle-overlay">
+                                <button class="quick-view-btn" onclick="showCandleDetail('${candle.id}')">Quick View</button>
+                            </div>
+                        </div>
+                        <div class="buy-now-container">
+                            <button type="button" class="buy-now-btn" onclick="showCandleDetail('${candle.id}')" aria-label="Buy ${candle.name}">Buy Now</button>
+                        </div>
+                        <div class="candle-info">
+                            <h3>${candle.name}</h3>
+                            <p class="candle-description">${candle.description}</p>
+                            <p class="candle-scent"><strong>Scent:</strong> ${candle.scent}</p>
+                            <div class="candle-price">
+                                ${discount > 0 ? `<span class="original-price">₹${originalPrice}</span>` : ''}
+                                <span class="current-price">₹${candle.price}</span>
+                            </div>
+                            <div class="candle-actions">
+                                <button type="button" class="add-to-favorites-btn ${isFavorite ? 'added-to-favorites' : ''}" data-candle-id="${candle.id}" title="${isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                    </svg>
+                                </button>
+                                <button type="button" class="add-to-cart-btn ${isInCart ? 'added-to-cart' : ''}" data-candle-id="${candle.id}" title="${isInCart ? 'Added to Cart' : 'Add to Cart'}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Initialize button states
+            initializeButtonStates();
+        }
+        
+        // Update cart badge
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
+            const cartBadge = document.getElementById('cart-badge');
+            
+            if (cartBadge) {
+                const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+                cartBadge.textContent = totalItems;
+                cartBadge.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+        }
+        
+        // Initialize button states
+        function initializeButtonStates() {
+            // Add to favorites functionality
+            document.querySelectorAll('.add-to-favorites-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const candleId = this.getAttribute('data-candle-id');
+                    toggleFavorite(candleId, this);
+                });
+            });
+            
+            // Add to cart functionality
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const candleId = this.getAttribute('data-candle-id');
+                    addToCart(candleId, e);
+                });
+            });
+        }
+        
+        // Toggle favorite
+        function toggleFavorite(candleId, button) {
+            let favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+            
+            if (favorites.includes(candleId)) {
+                // Remove from favorites
+                favorites = favorites.filter(id => id !== candleId);
+                button.classList.remove('added-to-favorites');
+                button.title = 'Add to Favorites';
+                showToast('Removed from favorites');
+            } else {
+                // Add to favorites
+                favorites.push(candleId);
+                button.classList.add('added-to-favorites');
+                button.title = 'Remove from Favorites';
+                showToast('Added to favorites');
+            }
+            
+            localStorage.setItem('glowhaven_favorites', JSON.stringify(favorites));
+        }
+        
+        // Add to cart
+        function addToCart(candleId, event) {
+            const candle = candlesData.find(c => c.id === candleId);
+            if (!candle) return;
+            
+            let cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
+            const existingItem = cart.find(item => item.id === candleId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: candleId,
+                    name: candle.name,
+                    price: candle.price,
+                    image: candle.image,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('glowhaven_cart', JSON.stringify(cart));
+            updateCartBadge();
+            
+            // Update button state
+            const button = event.currentTarget;
+            button.classList.add('added-to-cart');
+            button.title = 'Added to Cart';
+            
+            showToast('Added to cart');
+        }
+        
+        // Show toast notification
+        function showToast(message) {
+            const toastContainer = document.getElementById('toast-container');
+            const toastMessage = document.getElementById('toast-message');
+            
+            if (toastContainer && toastMessage) {
+                toastMessage.textContent = message;
+                toastContainer.style.display = 'block';
+                
+                setTimeout(() => {
+                    toastContainer.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // Favorites button functionality
+        const favoritesBtn = document.getElementById('favorites-btn');
+        if (favoritesBtn) {
+            favoritesBtn.addEventListener('click', () => {
+                window.location.href = 'favorites.html';
+            });
+        }
+        
+        // Cart button functionality
+        const cartBtn = document.getElementById('cart-btn');
+        if (cartBtn) {
+            cartBtn.addEventListener('click', () => {
+                showCartModal();
+            });
+        }
+        
+        // Show cart modal
+        function showCartModal() {
+            const cartModal = document.getElementById('cart-modal');
+            const cartContent = document.getElementById('cart-content');
+            const cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
+            
+            if (cartModal && cartContent) {
+                if (cart.length === 0) {
+                    // Empty cart
+                    cartContent.innerHTML = `
+                        <div class="cart-header">
+                            <h2>Your Cart</h2>
+                            <button class="close-cart-btn">&times;</button>
+                        </div>
+                        <div class="empty-cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                            <h3>Your cart is empty</h3>
+                            <p>Looks like you haven't added any candles to your cart yet.</p>
+                        </div>
+                    `;
+                } else {
+                    // Cart with items
+                    const totalAmount = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                    
+                    cartContent.innerHTML = `
+                        <div class="cart-header">
+                            <h2>Your Cart</h2>
+                            <button class="close-cart-btn">&times;</button>
+                        </div>
+                        <div class="cart-items">
+                            ${cart.map(item => `
+                                <div class="cart-item" data-id="${item.id}">
+                                    <div class="cart-item-image">
+                                        <img src="${item.image}" alt="${item.name}">
+                                    </div>
+                                    <div class="cart-item-details">
+                                        <h3>${item.name}</h3>
+                                        <p class="cart-item-price">₹${item.price}</p>
+                                    </div>
+                                    <div class="cart-item-quantity">
+                                        <button class="decrease-quantity" data-id="${item.id}">-</button>
+                                        <span>${item.quantity}</span>
+                                        <button class="increase-quantity" data-id="${item.id}">+</button>
+                                    </div>
+                                    <div class="cart-item-total">₹${(item.price * item.quantity).toFixed(2)}</div>
+                                    <button class="remove-from-cart" data-id="${item.id}">&times;</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="cart-summary">
+                            <div class="cart-total">
+                                <span>Total:</span>
+                                <span>₹${totalAmount.toFixed(2)}</span>
+                            </div>
+                            <div class="cart-actions">
+                                <button class="clear-cart-btn">Clear Cart</button>
+                                <button class="checkout-btn">Proceed to Checkout</button>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // Show modal
+                cartModal.style.display = 'flex';
+                
+                // Close cart modal
+                const closeBtn = cartContent.querySelector('.close-cart-btn');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        cartModal.style.display = 'none';
+                    });
+                }
+                
+                // Close modal when clicking outside
+                cartModal.addEventListener('click', (e) => {
+                    if (e.target === cartModal) {
+                        cartModal.style.display = 'none';
+                    }
+                });
+                
+                // Cart item quantity controls
+                const decreaseButtons = cartContent.querySelectorAll('.decrease-quantity');
+                const increaseButtons = cartContent.querySelectorAll('.increase-quantity');
+                const removeButtons = cartContent.querySelectorAll('.remove-from-cart');
+                const clearCartBtn = cartContent.querySelector('.clear-cart-btn');
+                
+                decreaseButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        updateCartItemQuantity(button.getAttribute('data-id'), -1);
+                    });
+                });
+                
+                increaseButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        updateCartItemQuantity(button.getAttribute('data-id'), 1);
+                    });
+                });
+                
+                removeButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        removeCartItem(button.getAttribute('data-id'));
+                    });
+                });
+                
+                if (clearCartBtn) {
+                    clearCartBtn.addEventListener('click', () => {
+                        clearCart();
+                    });
+                }
+            }
+        }
+        
+        // Update cart item quantity
+        function updateCartItemQuantity(itemId, change) {
+            let cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
+            const itemIndex = cart.findIndex(item => item.id === itemId);
+            
+            if (itemIndex !== -1) {
+                cart[itemIndex].quantity += change;
+                
+                if (cart[itemIndex].quantity <= 0) {
+                    // Remove item if quantity is 0 or less
+                    cart.splice(itemIndex, 1);
+                }
+                
+                localStorage.setItem('glowhaven_cart', JSON.stringify(cart));
+                updateCartBadge();
+                showCartModal(); // Refresh cart modal
+            }
+        }
+        
+        // Remove cart item
+        function removeCartItem(itemId) {
+            let cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
+            cart = cart.filter(item => item.id !== itemId);
+            
+            localStorage.setItem('glowhaven_cart', JSON.stringify(cart));
+            updateCartBadge();
+            showCartModal(); // Refresh cart modal
+            
+            // Update button state
+            const addToCartBtn = document.querySelector(`.add-to-cart-btn[data-candle-id="${itemId}"]`);
+            if (addToCartBtn) {
+                addToCartBtn.classList.remove('added-to-cart');
+                addToCartBtn.title = 'Add to Cart';
+            }
+        }
+        
+        // Clear cart
+        function clearCart() {
+            localStorage.setItem('glowhaven_cart', JSON.stringify([]));
+            updateCartBadge();
+            showCartModal(); // Refresh cart modal
+            
+            // Update all button states
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.classList.remove('added-to-cart');
+                button.title = 'Add to Cart';
+            });
+        }
+    </script>
+</body>
+</html>

@@ -18,6 +18,9 @@ function initTestimonialCarousel() {
     const visibleCards = window.innerWidth > 900 ? 3 : 1;
     const maxPosition = Math.max(0, (testimonials.length - visibleCards) * testimonialWidth);
     
+    // Initially show first 3 testimonials
+    track.style.transform = `translateX(0px)`;
+    
     // Update navigation button states
     function updateButtonStates() {
         prevBtn.disabled = position <= 0;
