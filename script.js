@@ -191,6 +191,66 @@ const candlesData = [
         image: 'candles_images/IMG_20250703_202103_668.jpg',
         description: 'A beautiful set of floral-designed candles that bring a touch of nature and elegance to your home decor.',
         scent: 'Rose, Jasmine'
+    },
+    {
+        id: '16',
+        name: 'Scented Diya Candle',
+        price: 45,
+        originalPrice: 50,
+        image: 'new_arrivals/scented diya candle.jpg',
+        description: 'Beautiful scented diya candles, perfect for festive occasions and home decoration. Pack of 4 candles.',
+        scent: 'Customizable'
+    },
+    {
+        id: '17',
+        name: 'Scented T-Light Candles',
+        price: 278,
+        originalPrice: 300,
+        image: 'new_arrivals/scented t- light candles .jpg',
+        description: 'Pack of 6 scented t-light candles, perfect for creating a warm and inviting atmosphere in any room.',
+        scent: 'Customizable'
+    },
+    {
+        id: '18',
+        name: 'Rose Teddy Candle',
+        price: 150,
+        image: 'new_arrivals/rose teddy candle.jpg',
+        description: 'Adorable rose-scented teddy bear shaped candle, perfect for gifting and adding a cute touch to your decor.',
+        scent: 'Rose, Customizable'
+    },
+    {
+        id: '19',
+        name: 'Motichoor Laddu Candle',
+        price: 199,
+        originalPrice: 250,
+        image: 'new_arrivals/motichoor laddu candle.jpg',
+        description: 'Pack of 6 motichoor laddu shaped candles, perfect for festive occasions and celebrations.',
+        scent: 'Sweet, Customizable'
+    },
+    {
+        id: '20',
+        name: 'Scented Modak Candle',
+        price: 250,
+        originalPrice: 300,
+        image: 'new_arrivals/scented modak candle.jpg',
+        description: 'Pack of 9 scented modak shaped candles, ideal for festivals and special occasions.',
+        scent: 'Sweet, Customizable'
+    },
+    {
+        id: '21',
+        name: 'Shades of Nature Scented Candles',
+        price: 249,
+        image: 'new_arrivals/shades of nature scented candles.jpg',
+        description: 'Beautiful layered candles inspired by the colors of nature, perfect for adding a touch of elegance to any room.',
+        scent: 'Natural, Customizable'
+    },
+    {
+        id: '22',
+        name: 'Combo 2Diya+2Laddu Candles',
+        price: 150,
+        image: 'new_arrivals/combo 2diya+2laddu.jpg',
+        description: 'Combination pack of 2 diya candles and 2 laddu candles, perfect for festive occasions and celebrations.',
+        scent: 'Customizable'
     }
 ];
 
@@ -660,122 +720,24 @@ function renderHomePageAndAllSections() {
         <section class="container py-8" id="new-arrivals-section">
             <h2 class="section-title">New Arrivals</h2>
             <div class="candle-grid">
-                <div class="candle-card" data-id="13">
-                    <div class="candle-image">
-                        <img src="Comming Soon.jpg" alt="Scented Floating Daisy Candles" loading="lazy" decoding="async">
-                        <div class="discount-badge">-15%</div>
-                        <div class="candle-overlay">
-                            <button class="quick-view-btn" onclick="showCandleDetail('13')">Quick View</button>
-                        </div>
-                    </div>
-                    <div class="buy-now-container">
-                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('13')" aria-label="Buy Scented Floating Daisy Candles">Buy Now</button>
-                    </div>
-                    <div class="candle-info">
-                        <h3>Scented Floating Daisy Candles</h3>
-                        <p class="candle-description">Beautiful floating candles with a fresh daisy design, perfect for creating a serene atmosphere in water displays.</p>
-                        <p class="candle-scent"><strong>Scent:</strong> Floral, Fresh</p>
-                        <div class="candle-price">
-                            <span class="original-price">₹299</span>
-                            <span class="current-price">₹249</span>
-                        </div>
-                        <div class="candle-actions">
-                            <button type="button" class="add-to-favorites-btn" data-candle-id="13" title="Add to Favorites">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                                </svg>
-                            </button>
-                            <button type="button" class="add-to-cart-btn" data-candle-id="13" title="Add to Cart">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="candle-card" data-id="14">
-                    <div class="candle-image">
-                        <img src="candles_images/IMG_20250610_202641.jpg" alt="Luxury Marble Jar Candle" loading="lazy" decoding="async">
-                        <div class="candle-overlay">
-                            <button class="quick-view-btn" onclick="showCandleDetail('14')">Quick View</button>
-                        </div>
-                    </div>
-                    <div class="buy-now-container">
-                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('14')" aria-label="Buy Luxury Marble Jar Candle">Buy Now</button>
-                    </div>
-                    <div class="candle-info">
-                        <h3>Luxury Marble Jar Candle</h3>
-                        <p class="candle-description">An elegant marble jar candle with a sophisticated design, perfect for adding a touch of luxury to any room.</p>
-                        <p class="candle-scent"><strong>Scent:</strong> Sandalwood, Vanilla</p>
-                        <div class="candle-price">
-                            <span class="current-price">₹299</span>
-                        </div>
-                        <div class="candle-actions">
-                            <button type="button" class="add-to-favorites-btn" data-candle-id="14" title="Add to Favorites">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                                </svg>
-                            </button>
-                            <button type="button" class="add-to-cart-btn" data-candle-id="14" title="Add to Cart">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="candle-card" data-id="15">
-                    <div class="candle-image">
-                        <img src="candles_images/IMG_20250703_202103_668.jpg" alt="Elegant Floral Candle Set" loading="lazy" decoding="async">
-                        <div class="discount-badge">-20%</div>
-                        <div class="candle-overlay">
-                            <button class="quick-view-btn" onclick="showCandleDetail('15')">Quick View</button>
-                        </div>
-                    </div>
-                    <div class="buy-now-container">
-                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('15')" aria-label="Buy Elegant Floral Candle Set">Buy Now</button>
-                    </div>
-                    <div class="candle-info">
-                        <h3>Elegant Floral Candle Set</h3>
-                        <p class="candle-description">A beautiful set of floral-designed candles that bring a touch of nature and elegance to your home decor.</p>
-                        <p class="candle-scent"><strong>Scent:</strong> Rose, Jasmine</p>
-                        <div class="candle-price">
-                            <span class="original-price">₹399</span>
-                            <span class="current-price">₹319</span>
-                        </div>
-                        <div class="candle-actions">
-                            <button type="button" class="add-to-favorites-btn" data-candle-id="15" title="Add to Favorites">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                                </svg>
-                            </button>
-                            <button type="button" class="add-to-cart-btn" data-candle-id="15" title="Add to Cart">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
                 <div class="candle-card" data-id="16">
                     <div class="candle-image">
-                        <img src="candles_images/Comming Soon.jpg" alt="Seasonal Limited Edition Candle" loading="lazy" decoding="async">
+                        <img src="new_arrivals/scented diya candle.jpg" alt="Scented Diya Candle" loading="lazy" decoding="async">
+                        <div class="discount-badge">-10%</div>
                         <div class="candle-overlay">
                             <button class="quick-view-btn" onclick="showCandleDetail('16')">Quick View</button>
                         </div>
                     </div>
                     <div class="buy-now-container">
-                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('16')" aria-label="Buy Seasonal Limited Edition Candle">Buy Now</button>
+                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('16')" aria-label="Buy Scented Diya Candle">Buy Now</button>
                     </div>
                     <div class="candle-info">
-                        <h3>Seasonal Limited Edition Candle</h3>
-                        <p class="candle-description">A special limited edition candle with seasonal fragrances, perfect for celebrating special occasions.</p>
-                        <p class="candle-scent"><strong>Scent:</strong> Seasonal Blend</p>
+                        <h3>Scented Diya Candle</h3>
+                        <p class="candle-description">Beautiful scented diya candles, perfect for festive occasions and home decoration. Pack of 4 candles.</p>
+                        <p class="candle-scent"><strong>Scent:</strong> Customizable</p>
                         <div class="candle-price">
-                            <span class="current-price">₹349</span>
+                            <span class="original-price">₹50</span>
+                            <span class="current-price">₹45</span>
                         </div>
                         <div class="candle-actions">
                             <button type="button" class="add-to-favorites-btn" data-candle-id="16" title="Add to Favorites">
@@ -784,6 +746,204 @@ function renderHomePageAndAllSections() {
                                 </svg>
                             </button>
                             <button type="button" class="add-to-cart-btn" data-candle-id="16" title="Add to Cart">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="candle-card" data-id="17">
+                    <div class="candle-image">
+                        <img src="new_arrivals/scented t- light candles .jpg" alt="Scented T-Light Candles" loading="lazy" decoding="async">
+                        <div class="discount-badge">-7%</div>
+                        <div class="candle-overlay">
+                            <button class="quick-view-btn" onclick="showCandleDetail('17')">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="buy-now-container">
+                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('17')" aria-label="Buy Scented T-Light Candles">Buy Now</button>
+                    </div>
+                    <div class="candle-info">
+                        <h3>Scented T-Light Candles</h3>
+                        <p class="candle-description">Pack of 6 scented t-light candles, perfect for creating a warm and inviting atmosphere in any room.</p>
+                        <p class="candle-scent"><strong>Scent:</strong> Customizable</p>
+                        <div class="candle-price">
+                            <span class="original-price">₹300</span>
+                            <span class="current-price">₹278</span>
+                        </div>
+                        <div class="candle-actions">
+                            <button type="button" class="add-to-favorites-btn" data-candle-id="17" title="Add to Favorites">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="add-to-cart-btn" data-candle-id="17" title="Add to Cart">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="candle-card" data-id="18">
+                    <div class="candle-image">
+                        <img src="new_arrivals/rose teddy candle.jpg" alt="Rose Teddy Candle" loading="lazy" decoding="async">
+                        <div class="candle-overlay">
+                            <button class="quick-view-btn" onclick="showCandleDetail('18')">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="buy-now-container">
+                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('18')" aria-label="Buy Rose Teddy Candle">Buy Now</button>
+                    </div>
+                    <div class="candle-info">
+                        <h3>Rose Teddy Candle</h3>
+                        <p class="candle-description">Adorable rose-scented teddy bear shaped candle, perfect for gifting and adding a cute touch to your decor.</p>
+                        <p class="candle-scent"><strong>Scent:</strong> Rose, Customizable</p>
+                        <div class="candle-price">
+                            <span class="current-price">₹150</span>
+                        </div>
+                        <div class="candle-actions">
+                            <button type="button" class="add-to-favorites-btn" data-candle-id="18" title="Add to Favorites">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="add-to-cart-btn" data-candle-id="18" title="Add to Cart">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="candle-card" data-id="19">
+                    <div class="candle-image">
+                        <img src="new_arrivals/motichoor laddu candle.jpg" alt="Motichoor Laddu Candle" loading="lazy" decoding="async">
+                        <div class="discount-badge">-20%</div>
+                        <div class="candle-overlay">
+                            <button class="quick-view-btn" onclick="showCandleDetail('19')">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="buy-now-container">
+                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('19')" aria-label="Buy Motichoor Laddu Candle">Buy Now</button>
+                    </div>
+                    <div class="candle-info">
+                        <h3>Motichoor Laddu Candle</h3>
+                        <p class="candle-description">Pack of 6 motichoor laddu shaped candles, perfect for festive occasions and celebrations.</p>
+                        <p class="candle-scent"><strong>Scent:</strong> Sweet, Customizable</p>
+                        <div class="candle-price">
+                            <span class="original-price">₹250</span>
+                            <span class="current-price">₹199</span>
+                        </div>
+                        <div class="candle-actions">
+                            <button type="button" class="add-to-favorites-btn" data-candle-id="19" title="Add to Favorites">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="add-to-cart-btn" data-candle-id="19" title="Add to Cart">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="candle-card" data-id="20">
+                    <div class="candle-image">
+                        <img src="new_arrivals/scented modak candle.jpg" alt="Scented Modak Candle" loading="lazy" decoding="async">
+                        <div class="discount-badge">-17%</div>
+                        <div class="candle-overlay">
+                            <button class="quick-view-btn" onclick="showCandleDetail('20')">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="buy-now-container">
+                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('20')" aria-label="Buy Scented Modak Candle">Buy Now</button>
+                    </div>
+                    <div class="candle-info">
+                        <h3>Scented Modak Candle</h3>
+                        <p class="candle-description">Pack of 9 scented modak shaped candles, ideal for festivals and special occasions.</p>
+                        <p class="candle-scent"><strong>Scent:</strong> Sweet, Customizable</p>
+                        <div class="candle-price">
+                            <span class="original-price">₹300</span>
+                            <span class="current-price">₹250</span>
+                        </div>
+                        <div class="candle-actions">
+                            <button type="button" class="add-to-favorites-btn" data-candle-id="20" title="Add to Favorites">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="add-to-cart-btn" data-candle-id="20" title="Add to Cart">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="candle-card" data-id="21">
+                    <div class="candle-image">
+                        <img src="new_arrivals/shades of nature scented candles.jpg" alt="Shades of Nature Scented Candles" loading="lazy" decoding="async">
+                        <div class="candle-overlay">
+                            <button class="quick-view-btn" onclick="showCandleDetail('21')">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="buy-now-container">
+                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('21')" aria-label="Buy Shades of Nature Scented Candles">Buy Now</button>
+                    </div>
+                    <div class="candle-info">
+                        <h3>Shades of Nature Scented Candles</h3>
+                        <p class="candle-description">Beautiful layered candles inspired by the colors of nature, perfect for adding a touch of elegance to any room.</p>
+                        <p class="candle-scent"><strong>Scent:</strong> Natural, Customizable</p>
+                        <div class="candle-price">
+                            <span class="current-price">₹249</span>
+                        </div>
+                        <div class="candle-actions">
+                            <button type="button" class="add-to-favorites-btn" data-candle-id="21" title="Add to Favorites">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="add-to-cart-btn" data-candle-id="21" title="Add to Cart">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="candle-card" data-id="22">
+                    <div class="candle-image">
+                        <img src="new_arrivals/combo 2diya+2laddu.jpg" alt="Combo 2Diya+2Laddu Candles" loading="lazy" decoding="async">
+                        <div class="candle-overlay">
+                            <button class="quick-view-btn" onclick="showCandleDetail('22')">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="buy-now-container">
+                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('22')" aria-label="Buy Combo 2Diya+2Laddu Candles">Buy Now</button>
+                    </div>
+                    <div class="candle-info">
+                        <h3>Combo 2Diya+2Laddu Candles</h3>
+                        <p class="candle-description">Combination pack of 2 diya candles and 2 laddu candles, perfect for festive occasions and celebrations.</p>
+                        <p class="candle-scent"><strong>Scent:</strong> Customizable</p>
+                        <div class="candle-price">
+                            <span class="current-price">₹150</span>
+                        </div>
+                        <div class="candle-actions">
+                            <button type="button" class="add-to-favorites-btn" data-candle-id="22" title="Add to Favorites">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="add-to-cart-btn" data-candle-id="22" title="Add to Cart">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
                                 </svg>

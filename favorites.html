@@ -50,17 +50,38 @@
 </head>
 <body>
     <header>
-        <div class="container bar">
-            <h1><img src="faviconn.png" alt="SomaScents Logo" style="height: 45px; width: auto; margin-right: 10px; vertical-align: middle;"><span>Soma</span>Scents</h1>
+        <div class="container flex">
+            <div class="logo">
+                <h1><img src="favicon.png" alt="SomaScents Logo" style="height: 45px; width: auto; margin-right: 10px; vertical-align: middle;"><span>Soma</span>Scents</h1>
+            </div>
             <nav>
                 <ul>
                     <li><a href="index.html#home-section">Home</a></li>
                     <li><a href="index.html#candle-collection-section">Candles</a></li>
                     <li><a href="index.html#about-section-link">About Us</a></li>
                     <li><a href="index.html#contact-section-link">Contact</a></li>
-                    <li><a href="favorites.html" style="color:#d97706; font-weight:700;">Favorites</a></li>
                 </ul>
             </nav>
+            <div class="nav-features">
+                <div class="search-container">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" class="search-input" placeholder="Search candles..." aria-label="Search candles">
+                </div>
+                <button type="button" class="favorites-btn" aria-label="View favorites" title="View favorites">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </button>
+                <button type="button" class="cart-btn" aria-label="View cart" title="View cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                    </svg>
+                    <span class="cart-count">0</span>
+                </button>
+            </div>
         </div>
     </header>
     <div class="favorites-wrapper">
