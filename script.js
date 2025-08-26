@@ -11,7 +11,123 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.location.pathname.includes('category.html')) {
         initCategoryPage();
     }
+    
+    // Initialize search functionality
+    initSearchFunctionality();
 });
+
+// Initialize search functionality
+function initSearchFunctionality() {
+    const searchInput = document.querySelector('#search-input');
+    if (!searchInput) return; // Exit if search input doesn't exist on this page
+    
+    const searchContainer = document.querySelector('.search-container');
+    
+    // Create search suggestions dropdown
+    const suggestionsDropdown = document.createElement('div');
+    suggestionsDropdown.className = 'search-suggestions';
+    suggestionsDropdown.style.display = 'none';
+    searchContainer.appendChild(suggestionsDropdown);
+    
+    // Add click outside listener to close dropdown
+    document.addEventListener('click', function(event) {
+        if (!searchContainer.contains(event.target)) {
+            suggestionsDropdown.style.display = 'none';
+        }
+    });
+    
+    // Add event listener for input changes
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim().toLowerCase();
+        
+        // Clear previous suggestions
+        suggestionsDropdown.innerHTML = '';
+        
+        if (query.length < 2) {
+            suggestionsDropdown.style.display = 'none';
+            return;
+        }
+        
+        // Filter candles based on search query
+        const matchingCandles = candlesData.filter(candle => 
+            candle.name.toLowerCase().includes(query) || 
+            candle.description.toLowerCase().includes(query) || 
+            candle.scent.toLowerCase().includes(query)
+        );
+        
+        // Display matching candles in dropdown
+        if (matchingCandles.length > 0) {
+            // Enable scrolling if there are many results
+            if (matchingCandles.length > 5) {
+                suggestionsDropdown.style.maxHeight = '400px';
+                suggestionsDropdown.style.overflowY = 'auto';
+            }
+            
+            // Show all matching candles instead of limiting to 5
+            matchingCandles.forEach(candle => {
+                const suggestion = document.createElement('div');
+                suggestion.className = 'search-suggestion-item';
+                suggestion.innerHTML = `
+                    <div class="suggestion-image">
+                        <img src="${candle.image}" alt="${candle.name}" onerror="this.src='${placeholderImageUrl}'">
+                    </div>
+                    <div class="suggestion-details">
+                        <div class="suggestion-name">${candle.name}</div>
+                        <div class="suggestion-price">₹${candle.price}</div>
+                    </div>
+                `;
+                
+                // Add click event to navigate to the candle
+                suggestion.addEventListener('click', function() {
+                    // Scroll to candle collection section
+                    const candleSection = document.getElementById('candle-collection-section');
+                    if (candleSection) {
+                        candleSection.scrollIntoView({ behavior: 'smooth' });
+                        
+                        // Highlight the selected candle after scrolling
+                        setTimeout(() => {
+                            const candleElements = document.querySelectorAll('.candle-card');
+                            candleElements.forEach(element => {
+                                if (element.dataset.id === candle.id) {
+                                    element.classList.add('highlight-candle');
+                                    setTimeout(() => {
+                                        element.classList.remove('highlight-candle');
+                                    }, 2000);
+                                }
+                            });
+                        }, 500);
+                    }
+                    
+                    // Clear search input and hide dropdown
+                    searchInput.value = '';
+                    suggestionsDropdown.style.display = 'none';
+                });
+                
+                suggestionsDropdown.appendChild(suggestion);
+            });
+            
+            suggestionsDropdown.style.display = 'block';
+        } else {
+            const noResults = document.createElement('div');
+            noResults.className = 'no-search-results';
+            noResults.textContent = 'No matching candles found';
+            suggestionsDropdown.appendChild(noResults);
+            suggestionsDropdown.style.display = 'block';
+        }
+    });
+    
+    // Hide dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!searchContainer.contains(event.target)) {
+            suggestionsDropdown.style.display = 'none';
+        }
+    });
+    
+    // Prevent dropdown from closing when clicking inside it
+    suggestionsDropdown.addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
+}
 
 // Initialize category page
 function initCategoryPage() {
