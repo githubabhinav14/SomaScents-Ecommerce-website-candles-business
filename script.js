@@ -1537,7 +1537,7 @@ function setActiveNavLink() {
 // WhatsApp button logic
 const whatsappBtn = document.getElementById('whatsapp-btn');
 whatsappBtn.addEventListener('click', () => {
-    const phoneNumber = '+918985665850'; // Replace with your actual WhatsApp number
+    const phoneNumber = '+917416778158'; // Replace with your actual WhatsApp number
     const message = 'Hi! I\'m interested in your candles. Can you help me?';
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
@@ -1899,7 +1899,7 @@ function checkout() {
     }
 
     const storeName = 'SomaScents';
-    const phoneNumber = '+918985665850'; // WhatsApp number
+    const phoneNumber = '+917416778158'; // WhatsApp number
 
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const totalOriginal = cart.reduce((sum, item) => sum + ((item.originalPrice || item.price) * item.quantity), 0);
