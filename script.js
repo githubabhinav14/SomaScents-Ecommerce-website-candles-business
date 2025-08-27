@@ -819,9 +819,12 @@ function renderHomePageAndAllSections() {
                 <div class="hero-image-gallery">
                     <div class="image-carousel-track">
                         <img src="candles_images/Peony Jar Candle.jpg" alt="Hero Candle" fetchpriority="high" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
+                        <img src="new_arrivals/rose teddy candle.jpg" alt="Lavender Marble Jar Candle" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
+                        <img src="new_arrivals/motichoor laddu candle.jpg" alt="Daisy Marble Candle" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
                         <img src="candles_images/Rose Heart Jar Candle.jpg" alt="Rose Heart Jar Candle" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
-                        <img src="candles_images/Lavender Marble Jar Candle.jpg" alt="Lavender Marble Jar Candle" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
-                        <img src="candles_images/Daisy Marble Candle.jpg" alt="Daisy Marble Candle" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
+                        <img src="candles_images/Heart of Roses.jpg" alt="Daisy Marble Candle" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
+                        <img src="new_arrivals/scented diya candle.jpg" alt="Rose Heart Jar Candle" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
+                        <img src="new_arrivals/Scented Candles Bouquet.jpg" alt="Rose Heart Jar Candle" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
                     </div>
                 </div>
             </div>
