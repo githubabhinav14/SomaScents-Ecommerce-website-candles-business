@@ -495,8 +495,6 @@ function renderCategoryProducts(products) {
                 </div>
                 <div class="candle-info">
                     <h3>${candle.name}</h3>
-                    <p class="candle-description">${candle.description}</p>
-                    <p class="candle-scent"><strong>Scent:</strong> ${candle.scent}</p>
                     <div class="candle-price">
                         ${discount > 0 ? `<span class="original-price">₹${originalPrice}</span>` : ''}
                         <span class="current-price">₹${candle.price}</span>
@@ -851,8 +849,6 @@ function renderHomePageAndAllSections() {
                     </div>
                     <div class="candle-info">
                         <h3>Scented Diya Candle</h3>
-                        <p class="candle-description">Beautiful scented diya candles, perfect for festive occasions and home decoration. Pack of 4 candles.</p>
-                        <p class="candle-scent"><strong>Scent:</strong> Customizable</p>
                         <div class="candle-price">
                             <span class="original-price">₹50</span>
                             <span class="current-price">₹45</span>
@@ -885,8 +881,6 @@ function renderHomePageAndAllSections() {
                     </div>
                     <div class="candle-info">
                         <h3>Scented T-Light Candles</h3>
-                        <p class="candle-description">Pack of 6 scented t-light candles, perfect for creating a warm and inviting atmosphere in any room.</p>
-                        <p class="candle-scent"><strong>Scent:</strong> Customizable</p>
                         <div class="candle-price">
                             <span class="original-price">₹300</span>
                             <span class="current-price">₹278</span>
@@ -918,8 +912,6 @@ function renderHomePageAndAllSections() {
                     </div>
                     <div class="candle-info">
                         <h3>Rose Teddy Candle</h3>
-                        <p class="candle-description">Adorable rose-scented teddy bear shaped candle, perfect for gifting and adding a cute touch to your decor.</p>
-                        <p class="candle-scent"><strong>Scent:</strong> Rose, Customizable</p>
                         <div class="candle-price">
                             <span class="current-price">₹150</span>
                         </div>
@@ -951,8 +943,6 @@ function renderHomePageAndAllSections() {
                     </div>
                     <div class="candle-info">
                         <h3>Motichoor Laddu Candle</h3>
-                        <p class="candle-description">Pack of 6 motichoor laddu shaped candles, perfect for festive occasions and celebrations.</p>
-                        <p class="candle-scent"><strong>Scent:</strong> Sweet, Customizable</p>
                         <div class="candle-price">
                             <span class="original-price">₹250</span>
                             <span class="current-price">₹199</span>
@@ -985,8 +975,6 @@ function renderHomePageAndAllSections() {
                     </div>
                     <div class="candle-info">
                         <h3>Scented Modak Candle</h3>
-                        <p class="candle-description">Pack of 9 scented modak shaped candles, ideal for festivals and special occasions.</p>
-                        <p class="candle-scent"><strong>Scent:</strong> Sweet, Customizable</p>
                         <div class="candle-price">
                             <span class="original-price">₹300</span>
                             <span class="current-price">₹250</span>
@@ -1018,8 +1006,6 @@ function renderHomePageAndAllSections() {
                     </div>
                     <div class="candle-info">
                         <h3>Shades of Nature Scented Candles</h3>
-                        <p class="candle-description">Beautiful layered candles inspired by the colors of nature, perfect for adding a touch of elegance to any room.</p>
-                        <p class="candle-scent"><strong>Scent:</strong> Natural, Customizable</p>
                         <div class="candle-price">
                             <span class="current-price">₹249</span>
                         </div>
@@ -1050,8 +1036,6 @@ function renderHomePageAndAllSections() {
                     </div>
                     <div class="candle-info">
                         <h3>Combo 2Diya+2Laddu Candles</h3>
-                        <p class="candle-description">Combination pack of 2 diya candles and 2 laddu candles, perfect for festive occasions and celebrations.</p>
-                        <p class="candle-scent"><strong>Scent:</strong> Customizable</p>
                         <div class="candle-price">
                             <span class="current-price">₹150</span>
                         </div>
@@ -1099,8 +1083,6 @@ function renderHomePageAndAllSections() {
                             </div>
                             <div class="candle-info">
                                 <h3>${candle.name}</h3>
-                                <p class="candle-description">${candle.description}</p>
-                                <p class="candle-scent"><strong>Scent:</strong> ${candle.scent}</p>
                                 <div class="candle-price">
                                     ${discount > 0 ? `<span class="original-price">₹${originalPrice}</span>` : ''}
                                     <span class="current-price">₹${candle.price}</span>
@@ -1998,8 +1980,6 @@ function renderCandleCollection(candles) {
                 </div>
                 <div class="candle-info">
                     <h3>${candle.name}</h3>
-                    <p class="candle-description">${candle.description}</p>
-                    <p class="candle-scent"><strong>Scent:</strong> ${candle.scent}</p>
                     <div class="candle-price">
                         ${discount > 0 ? `<span class="original-price">₹${originalPrice}</span>` : ''}
                         <span class="current-price">₹${candle.price}</span>
