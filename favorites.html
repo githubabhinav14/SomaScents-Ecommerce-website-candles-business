@@ -50,37 +50,19 @@
 </head>
 <body>
     <header>
-        <div class="container flex">
-            <div class="logo">
-                <h1><img src="favicon.png" alt="SomaScents Logo" style="height: 45px; width: auto; margin-right: 10px; vertical-align: middle;"><span>Soma</span>Scents</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html#home-section">Home</a></li>
-                    <li><a href="index.html#candle-collection-section">Candles</a></li>
-                    <li><a href="index.html#about-section-link">About Us</a></li>
-                    <li><a href="index.html#contact-section-link">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="nav-features">
-                <div class="search-container">
-                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                    <input type="text" class="search-input" placeholder="Search candles..." aria-label="Search candles">
+        <div class="container">
+            <div class="bar">
+                <div class="logo">
+                    <h1><img src="favicon.png" alt="SomaScents Logo" style="height: 45px; width: auto; margin-right: 10px; vertical-align: middle;"><span>Soma</span>Scents</h1>
                 </div>
-                <button type="button" class="favorites-btn" aria-label="View favorites" title="View favorites">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
-                </button>
-                <button type="button" class="cart-btn" aria-label="View cart" title="View cart">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-                    </svg>
-                    <span class="cart-count">0</span>
-                </button>
+                <nav>
+                    <ul>
+                        <li><a href="index.html#home-section">Home</a></li>
+                        <li><a href="index.html#candle-collection-section">Candles</a></li>
+                        <li><a href="index.html#about-section-link">About Us</a></li>
+                        <li><a href="index.html#contact-section-link">Contact</a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </header>
@@ -94,189 +76,13 @@
         <a href="index.html" class="back-link">&larr; Back to Home</a>
     </div>
     <script>
-        // Candle data (matching index.html)
-        const candlesData = [
-            {
-                id: '1',
-                name: 'Rose Heart Jar Candle',
-                price: 199,
-                originalPrice: 249,
-                image: 'candles_images/Rose Heart Jar Candle.jpg',
-                description: 'A beautifully crafted jar candle with a romantic rose fragrance, perfect for creating a warm and inviting atmosphere.',
-                scent: 'Floral'
-            },
-            {
-                id: '2',
-                name: 'Peony Jar Candle',
-                price: 200,
-                originalPrice: 249,
-                image: 'candles_images/Peony Jar Candle.jpg',
-                description: 'This elegant peony-scented jar candle combines floral and rose notes to bring a touch of sophistication to any space.',
-                scent: 'Floral, Rose'
-            },
-            {
-                id: '3',
-                name: 'Jar of Hearts',
-                price: 250,
-                originalPrice: 299,
-                image: 'candles_images/Jar of Hearts.jpg',
-                description: 'A luxurious candle with a blend of vanilla and floral scents, ideal for adding warmth and elegance to your home.',
-                scent: 'Vanilla, Floral'
-            },
-            {
-                id: '4',
-                name: 'Small Peony Candle',
-                price: 79,
-                image: 'candles_images/Small Peony Candle.jpg',
-                description: 'A compact candle with a delightful mix of floral, rose, and lavender scents, perfect for small spaces or gifting.',
-                scent: 'Floral, Rose, Lavender'
-            },
-            {
-                id: '5',
-                name: 'Lavender Marble Jar Candle',
-                price: 249,
-                image: 'candles_images/Lavender Marble Jar Candle.jpg',
-                description: 'A soothing lavender-scented jar candle with a marble finish, designed to promote relaxation and tranquility.',
-                scent: 'Lavender'
-            },
-            {
-                id: '6',
-                name: 'Heart of Roses',
-                price: 79,
-                image: 'candles_images/Heart of Roses.jpg',
-                description: 'A charming small candle infused with the classic scent of roses, ideal for romantic settings or thoughtful gifts.',
-                scent: 'Rose'
-            },
-            {
-                id: '7',
-                name: 'Scented Candles Bouquet',
-                price: 499,
-                image: 'candles_images/Scented Candles Bouquet.jpg',
-                description: 'A stunning bouquet of scented candles with a floral fragrance, perfect as a centerpiece or luxurious gift.',
-                scent: 'Floral'
-            },
-            {
-                id: '8',
-                name: 'Mothi Choor Laddu Candles',
-                price: 200,
-                originalPrice: 299,
-                image: 'candles_images/Mothi Choor Laddu Candles.jpg',
-                description: 'A pack of four candles inspired by the sweet aroma of mothi choor laddu, offering a warm vanilla scent.',
-                scent: 'Vanilla'
-            },
-            {
-                id: '9',
-                name: 'Mini Bubble Candles',
-                price: 199,
-                image: 'candles_images/Mini Bubble Candles.jpg',
-                description: 'A pack of three mini bubble candles with a blend of floral, vanilla, rose, and lavender scents for a versatile ambiance.',
-                scent: 'Floral, Vanilla, Rose, Lavender'
-            },
-            {
-                id: '10',
-                name: 'Blooming Heart Tin Candle',
-                price: 250,
-                originalPrice: 349,
-                image: 'candles_images/Blooming Heart Tin Candle.jpg',
-                description: 'A heart-shaped tin candle with floral and rose notes, designed to add a touch of romance to any setting.',
-                scent: 'Floral, Rose'
-            },
-            {
-                id: '11',
-                name: 'Tulip and Daisy Candle Bouquet',
-                price: 99,
-                image: 'candles_images/Tulip and Daisy Candle Bouquet.jpg',
-                description: 'A single candle with a vibrant floral scent, inspired by tulips and daisies, perfect for a fresh and lively atmosphere.',
-                scent: 'Floral'
-            },
-            {
-                id: '12',
-                name: 'Daisy Marble Candle',
-                price: 249,
-                image: 'candles_images/Daisy Marble Candle.jpg',
-                description: 'A beautifully designed marble candle with a refreshing floral daisy scent, ideal for modern home decor.',
-                scent: 'Floral'
-            },
-            {
-                id: '13',
-                name: 'Scented Floating Daisy Candles',
-                price: 299,
-                image: 'candles_images/Scented Floating Daisy Candles.jpg',
-                description: 'A pack of six floating candles with a floral daisy fragrance, perfect for creating a serene and elegant ambiance.',
-                scent: 'Floral'
-            }
-        ];
-        
-        function getFavorites() {
-            const favorites = localStorage.getItem('glowhaven_favorites');
-            return favorites ? JSON.parse(favorites) : [];
-        }
-        
-        function saveFavorites(favorites) {
-            localStorage.setItem('glowhaven_favorites', JSON.stringify(favorites));
-        }
-        
-        function showToast(message) {
-            let toast = document.getElementById('toast-notification');
-            if (!toast) {
-                toast = document.createElement('div');
-                toast.id = 'toast-notification';
-                toast.style.position = 'fixed';
-                toast.style.top = '24px';
-                toast.style.right = '32px';
-                toast.style.zIndex = '3000';
-                toast.style.background = '#d97706';
-                toast.style.color = '#fff';
-                toast.style.padding = '1rem 2rem';
-                toast.style.borderRadius = '0.75rem';
-                toast.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)';
-                toast.style.fontSize = '1.1rem';
-                toast.style.fontWeight = '600';
-                toast.style.minWidth = '180px';
-                toast.style.textAlign = 'center';
-                toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.4s';
-                document.body.appendChild(toast);
-            }
-            toast.textContent = message;
-            toast.style.opacity = '1';
-            setTimeout(() => {
-                toast.style.opacity = '0';
-            }, 1800);
-        }
-        
-        function getCart(){
-            return JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
-        }
-        function saveCart(cart){
-            localStorage.setItem('glowhaven_cart', JSON.stringify(cart));
-        }
-
-        function removeFromFavorites(candleId) {
-            let favorites = getFavorites();
-            favorites = favorites.filter(id => id !== candleId);
-            saveFavorites(favorites);
-            renderFavorites();
-            showToast('Removed from Favorites!');
-        }
-        function addToCart(candleId){
-            const cart = getCart();
-            const candle = candlesData.find(c => c.id === candleId);
-            if (!candle) return;
-            const existing = cart.find(i => i.id === candleId);
-            if (existing) { existing.quantity += 1; }
-            else {
-                cart.push({ id: candle.id, name: candle.name, price: candle.price, originalPrice: candle.originalPrice || candle.price, image: candle.image, quantity: 1 });
-            }
-            saveCart(cart);
-            showToast('Added to cart!');
-        }
-        
+        // Favorites page specific functions
         function renderFavorites() {
-            const favorites = getFavorites();
+            const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
             const favoriteCandles = candlesData.filter(candle => favorites.includes(candle.id));
             const favoritesGrid = document.getElementById('favorites-grid');
             const noFavoritesMessage = document.getElementById('no-favorites-message');
+            
             if (favoriteCandles.length > 0) {
                 favoritesGrid.innerHTML = favoriteCandles.map(candle => `
                     <div class="candle-card">
@@ -298,7 +104,45 @@
             }
         }
         
+        function removeFromFavorites(candleId) {
+            let favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+            favorites = favorites.filter(id => id !== candleId);
+            localStorage.setItem('glowhaven_favorites', JSON.stringify(favorites));
+            renderFavorites();
+            showToast('Removed from Favorites!');
+            
+            // Update favorites badge if function exists
+            if (typeof updateFavoritesBadge === 'function') {
+                updateFavoritesBadge();
+            }
+        }
+        
+        function addToCart(candleId) {
+            const cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
+            const candle = candlesData.find(c => c.id === candleId);
+            if (!candle) return;
+            
+            const existing = cart.find(i => i.id === candleId);
+            if (existing) { 
+                existing.quantity += 1; 
+            } else {
+                cart.push({ 
+                    id: candle.id, 
+                    name: candle.name, 
+                    price: candle.price, 
+                    originalPrice: candle.originalPrice || candle.price, 
+                    image: candle.image, 
+                    quantity: 1 
+                });
+            }
+            localStorage.setItem('glowhaven_cart', JSON.stringify(cart));
+            showToast('Added to cart!');
+        }
+        
         document.addEventListener('DOMContentLoaded', renderFavorites);
     </script>
+    
+    <!-- Include the main script for favorite button functionality -->
+    <script src="script.js"></script>
 </body>
 </html>

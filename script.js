@@ -518,6 +518,7 @@ function renderCategoryProducts(products) {
     
     // Initialize button states
     initializeButtonStates();
+    initializeFavoritesButtons();
 }
 
 // Show candle detail for Quick View and Buy Now buttons on category page
@@ -724,6 +725,7 @@ function toggleFavoriteDetail(candleId, button) {
     }
     
     localStorage.setItem('glowhaven_favorites', JSON.stringify(favorites));
+    updateFavoritesBadge();
     
     // Update all favorite buttons for this candle
     document.querySelectorAll(`.add-to-favorites-btn[data-candle-id="${candleId}"]`).forEach(btn => {
@@ -1629,6 +1631,14 @@ function toggleFavorite(candleId, event) {
     
     localStorage.setItem('glowhaven_favorites', JSON.stringify(favorites));
     updateFavoriteButtonState(candleId);
+    updateFavoritesBadge();
+    
+    // If we're on the favorites page, refresh it
+    if (window.location.pathname.includes('favorites.html')) {
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+    }
 }
 
 // Update cart button state
@@ -1658,11 +1668,11 @@ function updateCartButtonState(candleId) {
 
 // Update favorite button state
 function updateFavoriteButtonState(candleId) {
-    const favoriteBtn = document.querySelector(`[data-candle-id="${candleId}"].add-to-favorites-btn`);
-    if (favoriteBtn) {
-        const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
-        const isFavorite = favorites.includes(candleId);
-        
+    const favoriteBtns = document.querySelectorAll(`[data-candle-id="${candleId}"].add-to-favorites-btn`);
+    const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+    const isFavorite = favorites.includes(candleId);
+    
+    favoriteBtns.forEach(favoriteBtn => {
         if (isFavorite) {
             favoriteBtn.classList.add('added-to-favorites');
             favoriteBtn.innerHTML = `
@@ -1680,7 +1690,7 @@ function updateFavoriteButtonState(candleId) {
             `;
             favoriteBtn.title = 'Add to Favorites';
         }
-    }
+    });
 }
 
 // Initialize button states
@@ -1689,6 +1699,7 @@ function initializeButtonStates() {
         updateCartButtonState(candle.id);
         updateFavoriteButtonState(candle.id);
     });
+    updateFavoritesBadge();
 }
 
 // Remove from cart function
@@ -1733,6 +1744,46 @@ function updateCartBadge() {
                 cartBtn.appendChild(badge);
             }
             badge.textContent = totalItems;
+        } else if (badge) {
+            badge.remove();
+        }
+    }
+}
+
+// Update favorites badge
+function updateFavoritesBadge() {
+    const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+    const totalFavorites = favorites.length;
+    
+    // Update desktop favorites badge
+    const favoritesBtn = document.getElementById('favorites-btn');
+    if (favoritesBtn) {
+        let badge = favoritesBtn.querySelector('.favorites-badge');
+        if (totalFavorites > 0) {
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.className = 'favorites-badge';
+                badge.id = 'favorites-badge';
+                favoritesBtn.appendChild(badge);
+            }
+            badge.textContent = totalFavorites;
+        } else if (badge) {
+            badge.remove();
+        }
+    }
+    
+    // Update mobile favorites badge
+    const mobileFavoritesBtn = document.getElementById('mobile-favorites-btn');
+    if (mobileFavoritesBtn) {
+        let badge = mobileFavoritesBtn.querySelector('.favorites-badge');
+        if (totalFavorites > 0) {
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.className = 'favorites-badge';
+                badge.id = 'mobile-favorites-badge';
+                mobileFavoritesBtn.appendChild(badge);
+            }
+            badge.textContent = totalFavorites;
         } else if (badge) {
             badge.remove();
         }
