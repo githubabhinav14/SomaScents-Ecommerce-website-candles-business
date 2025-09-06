@@ -155,7 +155,6 @@ header .nav-features {
     width: 240px;
     background: #ffffff;
     color: #333;
-    /* Removed outline: none to keep default browser outline */
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
@@ -164,7 +163,10 @@ header .nav-features {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* Removed focus styles to keep browser default */
+.search-input:focus {
+    outline: 2px solid #d97706;
+    border-color: #d97706;
+}
 
 .search-input::placeholder {
     color: #9ca3af;

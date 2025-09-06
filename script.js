@@ -57,6 +57,9 @@ function initSearchFunctionality() {
         
         // Display matching candles in dropdown
         if (matchingCandles.length > 0) {
+            // Show the suggestions dropdown
+            suggestionsDropdown.style.display = 'block';
+            
             // Enable scrolling if there are many results
             if (matchingCandles.length > 5) {
                 suggestionsDropdown.style.maxHeight = '400px';
@@ -1294,7 +1297,7 @@ function renderHomePageAndAllSections() {
                         <p>Mehdipatnam</p>
                     </div>
                     <div class="map-placeholder">
-                        <img src="https://placehold.co/400x250/E0E7FF/3F51B5?text=Map+Goes+Here" alt="Map Location">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3807.4979338103223!2d78.43679631744384!3d17.39127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb97a7f03b5d81%3A0x55c2b1a6e3975d8!2sMehdipatnam%2C%20Hyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1652345678901!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
             </div>
@@ -1604,6 +1607,7 @@ scrollUpBtn.addEventListener('click', () => {
 // Search functionality
 const searchInput = document.getElementById('search-input');
 if (searchInput) {
+    // Input event for real-time filtering
     searchInput.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase().trim();
         if (searchTerm.length > 0) {
@@ -1622,6 +1626,20 @@ if (searchInput) {
             // Show all candles when search is cleared
             if (currentPage === 'home-and-list') {
                 renderCandleCollection(candlesData);
+            }
+        }
+    });
+    
+    // Add click event listeners to candle cards after search
+    document.addEventListener('click', (e) => {
+        // Check if the clicked element is a candle card or inside a candle card
+        const candleCard = e.target.closest('.candle-card');
+        if (candleCard) {
+            const candleId = candleCard.dataset.id;
+            if (candleId) {
+                // Navigate to the specific candle detail page
+                showCandleDetail(candleId);
+                e.preventDefault();
             }
         }
     });
