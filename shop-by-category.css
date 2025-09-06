@@ -15,8 +15,13 @@
 }
 
 @media (max-width: 767px) {
+    #shop-by-category-section {
+        padding: 2rem 0.5rem;
+    }
+    
     #shop-by-category-section .section-title {
-        font-size: 2rem;
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
     }
 }
 
@@ -37,7 +42,13 @@
 @media (max-width: 640px) {
     .category-grid {
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: 1.25rem;
+        padding: 0 0.5rem;
+    }
+    
+    .category-card {
+        max-width: 100%;
+        margin: 0 auto;
     }
 }
 
