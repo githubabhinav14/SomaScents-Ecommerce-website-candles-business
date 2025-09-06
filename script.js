@@ -86,26 +86,10 @@ function initSearchFunctionality() {
                     </div>
                 `;
                 
-                // Add click event to navigate to the candle
+                // Add click event to navigate to the candle detail page
                 suggestion.addEventListener('click', function() {
-                    // Scroll to candle collection section
-                    const candleSection = document.getElementById('candle-collection-section');
-                    if (candleSection) {
-                        candleSection.scrollIntoView({ behavior: 'smooth' });
-                        
-                        // Highlight the selected candle after scrolling
-                        setTimeout(() => {
-                            const candleElements = document.querySelectorAll('.candle-card');
-                            candleElements.forEach(element => {
-                                if (element.dataset.id === candle.id) {
-                                    element.classList.add('highlight-candle');
-                                    setTimeout(() => {
-                                        element.classList.remove('highlight-candle');
-                                    }, 2000);
-                                }
-                            });
-                        }, 500);
-                    }
+                    // Navigate to candle detail view
+                    showCandleDetail(candle.id);
                     
                     // Clear search input and hide dropdown
                     searchInput.value = '';
