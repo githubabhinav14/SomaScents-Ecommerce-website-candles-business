@@ -460,8 +460,9 @@ header .nav-features svg {
     .candle-detail-image img {
         width: 100%;
         height: auto;
+        max-height: 500px;
         display: block;
-        object-fit: cover;
+        object-fit: contain;
     }
     
     .candle-detail-info {
@@ -606,9 +607,15 @@ header .nav-features svg {
         background-color: #e0e0e0;
     }
     
-    .add-to-favorites-detail-btn.added-to-favorites {
-        background-color: #ffebee;
-        color: #e57373;
+    .add-to-favorites-detail-btn.added-to-favorites,
+    .button-secondary.added-to-favorites {
+        background-color: #fef3c7;
+        color: #92400e;
+    }
+    
+    .add-to-favorites-detail-btn.added-to-favorites:hover,
+    .button-secondary.added-to-favorites:hover {
+        background-color: #fde68a;
     }
     
     .candle-detail-features {

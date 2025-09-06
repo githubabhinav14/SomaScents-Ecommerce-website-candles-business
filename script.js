@@ -313,8 +313,9 @@ const candlesData = [
         name: 'Scented Diya Candle',
         price: 45,
         originalPrice: 50,
+        packPrice: 160,
         image: 'new_arrivals/scented diya candle.jpg',
-        description: 'Beautiful scented diya candles, perfect for festive occasions and home decoration. Pack of 4 candles.',
+        description: 'Beautiful scented diya candles, perfect for festive occasions and home decoration. Single piece ₹45, pack of 4 for ₹160.',
         scent: 'Customizable'
     },
     {
@@ -853,7 +854,7 @@ function renderHomePageAndAllSections() {
                         <h3>Scented Diya Candle</h3>
                         <div class="candle-price">
                             <span class="original-price">₹50</span>
-                            <span class="current-price">₹45</span>
+                            <span class="current-price">₹45 | Pack of 4: ₹160</span>
                         </div>
                         <div class="candle-actions">
                             <button type="button" class="add-to-favorites-btn" data-candle-id="16" title="Add to Favorites">
@@ -1344,6 +1345,16 @@ function renderCandleDetail(id) {
         return;
     }
 
+    // Check if item is in favorites
+    const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+    const isFavorite = favorites.includes(candle.id);
+
+    // Special pricing display for Scented Diya Candle
+    let priceDisplay = `₹${candle.price.toFixed(2)}`;
+    if (candle.id === '16' && candle.packPrice) {
+        priceDisplay = `Single piece: ₹${candle.price.toFixed(2)} | Pack of 4: ₹${candle.packPrice.toFixed(2)}`;
+    }
+
     appRoot.innerHTML = `
         <section class="container py-8">
             <div class="candle-detail">
@@ -1352,7 +1363,7 @@ function renderCandleDetail(id) {
                 </div>
                 <div class="candle-detail-content">
                     <h2>${candle.name}</h2>
-                    <p class="price">₹${candle.price.toFixed(2)}</p>
+                    <p class="price">${priceDisplay}</p>
                     <p class="description">${candle.description}</p>
                     <div class="scent-notes">
                         <h3>Scent Notes:</h3>
@@ -1362,6 +1373,12 @@ function renderCandleDetail(id) {
                         <button class="button button-primary" id="add-to-cart-detail-btn">
                             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M16 11V9H8V7h8V5l4 4-4 4zm-6 4H4a2 2 0 01-2-2V5a2 2 0 012-2h6v2H4v8h6v2z"/></svg>
                             Add to Cart
+                        </button>
+                        <button class="button button-secondary ${isFavorite ? 'added-to-favorites' : ''}" id="add-to-favorites-detail-btn">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 3.22l-.61-.6a5.5 5.5 0 00-7.78 7.77L10 18.78l8.39-8.4a5.5 5.5 0 00-7.78-7.77l-.61.61z"/>
+                            </svg>
+                            ${isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
                         </button>
                         <button class="button button-secondary" id="back-to-candles-btn">
                             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd"></path></svg>
@@ -1373,8 +1390,32 @@ function renderCandleDetail(id) {
         </section>
     `;
 
+    // Hide footer on detail page
+    const footer = document.querySelector('footer');
+    if (footer) {
+        footer.style.display = 'none';
+    }
+    
+    // Hide social media icons on detail page
+    const socialButtonsContainer = document.getElementById('social-buttons-container');
+    if (socialButtonsContainer) {
+        socialButtonsContainer.style.display = 'none';
+    }
+
     // Changed to navigate to candles section specifically
-    document.getElementById('back-to-candles-btn').addEventListener('click', () => navigateTo('home-and-list', null, 'candle-collection-section'));
+    document.getElementById('back-to-candles-btn').addEventListener('click', () => {
+        // Show footer again when going back
+        if (footer) {
+            footer.style.display = 'block';
+        }
+        // Show social media icons again when going back
+        const socialButtonsContainer = document.getElementById('social-buttons-container');
+        if (socialButtonsContainer) {
+            socialButtonsContainer.style.display = 'flex';
+        }
+        navigateTo('home-and-list', null, 'candle-collection-section');
+    });
+    
     // Add to cart button on detail page
     const addBtn = document.getElementById('add-to-cart-detail-btn');
     if (addBtn) {
@@ -1383,6 +1424,19 @@ function renderCandleDetail(id) {
             addBtn.textContent = 'Added to Cart';
         });
     }
+    
+    // Add to favorites button on detail page
+    const favBtn = document.getElementById('add-to-favorites-detail-btn');
+    if (favBtn) {
+        favBtn.addEventListener('click', () => {
+            toggleFavorite(id);
+            const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+            const isFavorite = favorites.includes(id);
+            favBtn.textContent = isFavorite ? 'Remove from Favorites' : 'Add to Favorites';
+            favBtn.classList.toggle('added-to-favorites', isFavorite);
+        });
+    }
+    
     // Scroll to top after rendering detail
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 } 
