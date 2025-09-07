@@ -2,6 +2,103 @@
 const placeholderImageUrl = 'Comming Soon.jpg';
 const blankPlaceholder = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3C/svg%3E';
 
+// --- Global Error Handling & Safe Utilities ---
+(function setupGlobalSafety() {
+	// Global runtime error handler
+	window.addEventListener('error', function(event) {
+		try {
+			console.error('Unhandled Error:', event.error || event.message);
+			if (typeof showToast === 'function') {
+				showToast('Something went wrong. Please try again.');
+			}
+		} catch (_) { /* no-op */ }
+	});
+
+	// Unhandled promise rejection handler
+	window.addEventListener('unhandledrejection', function(event) {
+		try {
+			console.error('Unhandled Promise Rejection:', event.reason);
+			if (typeof showToast === 'function') {
+				showToast('A network or processing error occurred.');
+			}
+		} catch (_) { /* no-op */ }
+	});
+
+	// Safe JSON parse helper
+	window.safeJSONParse = function(value, fallback) {
+		try {
+			if (typeof value !== 'string') return fallback;
+			return JSON.parse(value);
+		} catch (_) {
+			return fallback;
+		}
+	};
+
+	// Safe localStorage helpers
+	window.safeLocalGet = function(key, fallback) {
+		try {
+			return safeJSONParse(localStorage.getItem(key), fallback);
+		} catch (_) {
+			return fallback;
+		}
+	};
+	window.safeLocalSet = function(key, value) {
+		try {
+			localStorage.setItem(key, JSON.stringify(value));
+			return true;
+		} catch (e) {
+			console.error('Failed to write to localStorage', key, e);
+			if (typeof showToast === 'function') {
+				showToast('Unable to save your changes locally.');
+			}
+			return false;
+		}
+	};
+	window.safeLocalRemove = function(key) {
+		try {
+			localStorage.removeItem(key);
+		} catch (_) { /* no-op */ }
+	};
+
+	// Domain-specific storage accessors
+	window.getCart = function() { return safeLocalGet('glowhaven_cart', []); };
+	window.setCart = function(newCart) { return safeLocalSet('glowhaven_cart', Array.isArray(newCart) ? newCart : []); };
+	window.getFavorites = function() { return safeLocalGet('glowhaven_favorites', []); };
+	window.setFavorites = function(newFavs) { return safeLocalSet('glowhaven_favorites', Array.isArray(newFavs) ? newFavs : []); };
+
+	// Guarded query selector
+	window.safeQuerySelector = function(selector) {
+		try { return document.querySelector(selector) || null; } catch (_) { return null; }
+	};
+
+	// Wrap critical global functions with try/catch if present
+	function installSafetyWrappers() {
+		['addToCart','toggleFavorite','toggleFavoriteDetail','checkout'].forEach(functionName => {
+			try {
+				const original = window[functionName];
+				if (typeof original === 'function') {
+					window[functionName] = function(...args) {
+						try {
+							return original.apply(this, args);
+						} catch (err) {
+							console.error(functionName + ' failed:', err);
+							if (typeof showToast === 'function') {
+								showToast('Action failed. Please try again.');
+							}
+							return undefined;
+						}
+					};
+				}
+			} catch (_) { /* no-op */ }
+		});
+	}
+
+	// Attempt installation at different lifecycle points
+	document.addEventListener('DOMContentLoaded', installSafetyWrappers);
+	window.addEventListener('load', installSafetyWrappers);
+	setTimeout(installSafetyWrappers, 1500);
+})();
+
 // DOM content loaded event handler
 document.addEventListener('DOMContentLoaded', function() {
     // Images are now loaded directly with src attribute
@@ -186,7 +283,7 @@ function initCategoryPage() {
 
 
 // Cart functionality - declare cart variable globally
-let cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
+let cart = getCart();
 
 // Updated candlesData from Catalogue.docx
 const candlesData = [
@@ -465,9 +562,9 @@ function renderCategoryProducts(products) {
         const discountPercentage = discount > 0 ? Math.round((discount / originalPrice) * 100) : 0;
         
         // Check if item is in cart or favorites
-        const cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
+        const cart = getCart();
         const isInCart = cart.some(item => item.id === candle.id);
-        const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+        const favorites = getFavorites();
         const isFavorite = favorites.includes(candle.id);
         
         return `
@@ -524,9 +621,9 @@ function showCandleDetail(candleId) {
     const discountPercentage = discount > 0 ? Math.round((discount / originalPrice) * 100) : 0;
     
     // Check if item is in cart or favorites
-    const cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
+    const cart = getCart();
     const isInCart = cart.some(item => item.id === candle.id);
-    const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+    const favorites = getFavorites();
     const isFavorite = favorites.includes(candle.id);
     
     modal.innerHTML = `
@@ -658,7 +755,7 @@ function addToCartWithQuantity(candleId, quantity) {
     const candle = candlesData.find(c => c.id === candleId);
     if (!candle) return;
     
-    let cart = JSON.parse(localStorage.getItem('glowhaven_cart')) || [];
+    let cart = getCart();
     const existingItem = cart.find(item => item.id === candleId);
     
     if (existingItem) {
@@ -673,7 +770,7 @@ function addToCartWithQuantity(candleId, quantity) {
         });
     }
     
-    localStorage.setItem('glowhaven_cart', JSON.stringify(cart));
+    setCart(cart);
     updateCartBadge();
     
     // Update all add to cart buttons for this candle
@@ -687,7 +784,7 @@ function addToCartWithQuantity(candleId, quantity) {
 
 // Toggle favorite from detail
 function toggleFavoriteDetail(candleId, button) {
-    let favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+    let favorites = getFavorites();
     
     if (favorites.includes(candleId)) {
         // Remove from favorites
@@ -713,7 +810,7 @@ function toggleFavoriteDetail(candleId, button) {
         showToast('Added to favorites');
     }
     
-    localStorage.setItem('glowhaven_favorites', JSON.stringify(favorites));
+    setFavorites(favorites);
     updateFavoritesBadge();
     
     // Update all favorite buttons for this candle
@@ -1070,8 +1167,8 @@ function renderHomePageAndAllSections() {
                     const discountPercentage = discount > 0 ? Math.round((discount / originalPrice) * 100) : 0;
                     
                     // Check if item is in cart or favorites
-                    const isInCart = cart.some(item => item.id === candle.id);
-                    const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+                    const isInCart = getCart().some(item => item.id === candle.id);
+                    const favorites = getFavorites();
                     const isFavorite = favorites.includes(candle.id);
                     
                     return `
@@ -1301,7 +1398,7 @@ function renderCandleDetail(id) {
     }
 
     // Check if item is in favorites
-    const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+    const favorites = getFavorites();
     const isFavorite = favorites.includes(candle.id);
 
     // Special pricing display for Scented Diya Candle
@@ -1385,7 +1482,7 @@ function renderCandleDetail(id) {
     if (favBtn) {
         favBtn.addEventListener('click', () => {
             toggleFavorite(id);
-            const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+            const favorites = getFavorites();
             const isFavorite = favorites.includes(id);
             favBtn.textContent = isFavorite ? 'Remove from Favorites' : 'Add to Favorites';
             favBtn.classList.toggle('added-to-favorites', isFavorite);
@@ -1612,7 +1709,7 @@ function addToCart(candleId, event) {
     const candle = candlesData.find(c => c.id === candleId);
     if (!candle) return;
     
-    const existingItem = cart.find(item => item.id === candleId);
+    const existingItem = getCart().find(item => item.id === candleId);
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
@@ -1634,7 +1731,7 @@ function addToCart(candleId, event) {
 
 // Toggle favorite function
 function toggleFavorite(candleId, event) {
-    let favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+    let favorites = getFavorites();
     const isFavorite = favorites.includes(candleId);
     
     if (isFavorite) {
@@ -1645,7 +1742,7 @@ function toggleFavorite(candleId, event) {
         showToast('❤️ Added to favorites!');
     }
     
-    localStorage.setItem('glowhaven_favorites', JSON.stringify(favorites));
+    setFavorites(favorites);
     updateFavoriteButtonState(candleId);
     updateFavoritesBadge();
     
@@ -1661,7 +1758,7 @@ function toggleFavorite(candleId, event) {
 function updateCartButtonState(candleId) {
     const cartBtn = document.querySelector(`[data-candle-id="${candleId}"].add-to-cart-btn`);
     if (cartBtn) {
-        const isInCart = cart.some(item => item.id === candleId);
+        const isInCart = getCart().some(item => item.id === candleId);
         if (isInCart) {
             cartBtn.classList.add('added-to-cart');
             cartBtn.innerHTML = `
@@ -1685,7 +1782,7 @@ function updateCartButtonState(candleId) {
 // Update favorite button state
 function updateFavoriteButtonState(candleId) {
     const favoriteBtns = document.querySelectorAll(`[data-candle-id="${candleId}"].add-to-favorites-btn`);
-    const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+    const favorites = getFavorites();
     const isFavorite = favorites.includes(candleId);
     
     favoriteBtns.forEach(favoriteBtn => {
@@ -1744,7 +1841,7 @@ function updateQuantity(candleId, change) {
 
 // Save cart to localStorage
 function saveCart() {
-    localStorage.setItem('glowhaven_cart', JSON.stringify(cart));
+    setCart(cart);
 }
 
 // Update cart badge
@@ -1768,41 +1865,12 @@ function updateCartBadge() {
 
 // Update favorites badge
 function updateFavoritesBadge() {
-    const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
-    const totalFavorites = favorites.length;
-    
-    // Update desktop favorites badge
-    const favoritesBtn = document.getElementById('favorites-btn');
-    if (favoritesBtn) {
-        let badge = favoritesBtn.querySelector('.favorites-badge');
-        if (totalFavorites > 0) {
-            if (!badge) {
-                badge = document.createElement('span');
-                badge.className = 'favorites-badge';
-                badge.id = 'favorites-badge';
-                favoritesBtn.appendChild(badge);
-            }
-            badge.textContent = totalFavorites;
-        } else if (badge) {
-            badge.remove();
-        }
-    }
-    
-    // Update mobile favorites badge
-    const mobileFavoritesBtn = document.getElementById('mobile-favorites-btn');
-    if (mobileFavoritesBtn) {
-        let badge = mobileFavoritesBtn.querySelector('.favorites-badge');
-        if (totalFavorites > 0) {
-            if (!badge) {
-                badge = document.createElement('span');
-                badge.className = 'favorites-badge';
-                badge.id = 'mobile-favorites-badge';
-                mobileFavoritesBtn.appendChild(badge);
-            }
-            badge.textContent = totalFavorites;
-        } else if (badge) {
-            badge.remove();
-        }
+    const favorites = getFavorites();
+    const totalFavorites = Array.isArray(favorites) ? favorites.length : 0;
+    const favoritesBadge = document.getElementById('favorites-badge');
+    if (favoritesBadge) {
+        favoritesBadge.textContent = totalFavorites > 0 ? totalFavorites : '';
+        favoritesBadge.style.display = totalFavorites > 0 ? 'inline-flex' : 'none';
     }
 }
 
@@ -2029,8 +2097,8 @@ function renderCandleCollection(candles) {
         const discountPercentage = discount > 0 ? Math.round((discount / originalPrice) * 100) : 0;
         
         // Check if item is in cart or favorites
-        const isInCart = cart.some(item => item.id === candle.id);
-        const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+        const isInCart = getCart().some(item => item.id === candle.id);
+        const favorites = getFavorites();
         const isFavorite = favorites.includes(candle.id);
         
         return `
