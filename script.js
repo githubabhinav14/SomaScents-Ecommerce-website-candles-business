@@ -126,10 +126,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	// Images are now loaded directly with src attribute
 	// No need for lazy loading initialization
 	
-	// Initialize category page if on category.html
-	if (window.location.pathname.includes('category.html')) {
-		initCategoryPage();
-	}
+	// Redirect to candle-collection-section if on category.html
+if (window.location.pathname.includes('category.html')) {
+    window.location.href = 'index.html#candle-collection-section';
+}
 	
 	// Initialize search functionality
 	initSearchFunctionality();
@@ -1193,7 +1193,7 @@ function renderHomePageAndAllSections() {
                 </div>
             </div>
             <div class="view-all-container">
-                <button class="view-all-btn" onclick="window.location.href='category.html'">View All Products</button>
+                <button class="view-all-btn" onclick="document.getElementById('candle-collection-section').scrollIntoView({behavior: 'smooth'})">View All Products</button>
             </div>
         </section>
 

@@ -240,7 +240,8 @@ header .nav-features {
 .suggestion-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    transform: scale(1.15);
 }
 
 .suggestion-details {
@@ -347,11 +348,12 @@ header .nav-features svg {
     }
     
     .category-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+    transform: scale(1.15);
+}
     
     .category-card:hover .category-image img {
         transform: scale(1.05);
@@ -483,12 +485,13 @@ header .nav-features svg {
     }
     
     .candle-detail-image img {
-        width: 100%;
-        height: auto;
-        max-height: 500px;
-        display: block;
-        object-fit: contain;
-    }
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    display: block;
+    object-fit: contain;
+    transform: scale(1.15);
+}
     
     .candle-detail-info {
         display: flex;
