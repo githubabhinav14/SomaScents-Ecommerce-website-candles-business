@@ -424,7 +424,7 @@ function navigateTo(page, id = null, section = null) {
         scrollToSection = section;
         renderPage();
         if (!section) {
-            window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+            window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
         }
     });
 }
@@ -1315,7 +1315,7 @@ document.querySelectorAll('.candle-card').forEach(card => {
 function showCandleDetail(id) {
     navigateTo('detail', id);
     // Ensure detail opens from top
-    setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }), 0);
+    setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' }), 0);
 }
 
 // Function to render the detail view of a single candle
@@ -1428,29 +1428,29 @@ function renderCandleDetail(id) {
     }
     
     // Scroll to top after rendering detail
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 } 
 
 // Event listeners for navigation
 document.getElementById('nav-home').addEventListener('click', (e) => {
     e.preventDefault();
     const homeEl = document.getElementById('home-section');
-    if (homeEl) { homeEl.scrollIntoView({ behavior: 'auto' }); }
+    if (homeEl) { homeEl.scrollIntoView({ behavior: 'instant' }); }
 });
 
 document.getElementById('nav-candles').addEventListener('click', (e) => {
     e.preventDefault();
-    document.getElementById('candle-collection-section').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('candle-collection-section').scrollIntoView({ behavior: 'instant' });
 });
 
 document.getElementById('nav-about').addEventListener('click', (e) => {
     e.preventDefault();
-    document.getElementById('about-section-link').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('about-section-link').scrollIntoView({ behavior: 'instant' });
 });
 
 document.getElementById('nav-contact').addEventListener('click', (e) => {
     e.preventDefault();
-    document.getElementById('contact-section-link').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('contact-section-link').scrollIntoView({ behavior: 'instant' });
 });
 
 // Initialize the page on load
@@ -1461,8 +1461,13 @@ document.addEventListener('DOMContentLoaded', () => {
         currentYearFooter.textContent = new Date().getFullYear();
     }
     renderPage();
-    // Ensure we scroll to the top of the home section on initial load/reload
-    document.getElementById('home-section').scrollIntoView({ behavior: 'smooth' });
+    // Ensure we scroll to the offers section on initial load/reload
+    setTimeout(() => {
+        const offersSection = document.querySelector('.dussehra-offer-banner');
+        if (offersSection) {
+            offersSection.scrollIntoView({ behavior: 'instant' });
+        }
+    }, 100);
 });
 
 // Toast notification function
