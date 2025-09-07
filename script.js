@@ -811,13 +811,18 @@ function renderHomePageAndAllSections() {
         <div class="dussehra-offer-banner">
             <div class="dussehra-diya left-diya"></div>
             <div class="dussehra-diya right-diya"></div>
+            <div class="floating-element flower-1"></div>
+            <div class="floating-element flower-2"></div>
+            <div class="floating-element flower-3"></div>
+            <div class="floating-element star-1"></div>
+            <div class="floating-element star-2"></div>
             <div class="dussehra-offer-content">
                 <div class="dussehra-offer-text">
                     <span class="dussehra-offer-title">✨ Dussehra Special Offers ✨</span>
                     <span class="dussehra-offer-subtitle">Starting October 22nd | Up to 30% OFF on Festival Collection</span>
                 </div>
                 <div class="dussehra-offer-cta">
-                    <a href="#candle-collection-section" class="dussehra-offer-button">Shop Now</a>
+                    <a href="#candle-collection-section" class="dussehra-offer-button">Shop Now <span class="button-sparkle"></span></a>
                 </div>
             </div>
             <div class="dussehra-decoration left-decoration"></div>
