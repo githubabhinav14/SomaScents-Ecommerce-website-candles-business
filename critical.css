@@ -29,6 +29,12 @@ header {
     backdrop-filter: blur(10px);
 }
 
+@media (max-width: 768px) {
+    header {
+        padding: 0.8rem 0;
+    }
+}
+
 header .flex {
     display: flex;
     justify-content: space-between;
@@ -89,11 +95,16 @@ header .nav-features {
 }
 
 @media (max-width: 768px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
     header .flex {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: 1rem 0;
+        padding: 0.75rem 0;
     }
 
     header nav {
@@ -102,6 +113,10 @@ header .nav-features {
 
     header h1 {
         font-size: 1.5rem;
+    }
+
+    header .nav-features {
+        gap: 1rem;
     }
 
     .mobile-menu-btn {

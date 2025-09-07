@@ -14,6 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize search functionality
     initSearchFunctionality();
+    
+    // Render Shop By Category section
+    const shopByCategoryContainer = document.getElementById('shop-by-category-container');
+    if (shopByCategoryContainer && typeof renderShopByCategorySection === 'function') {
+        shopByCategoryContainer.innerHTML = renderShopByCategorySection();
+    }
 });
 
 // Initialize search functionality
@@ -57,6 +63,9 @@ function initSearchFunctionality() {
         
         // Display matching candles in dropdown
         if (matchingCandles.length > 0) {
+            // Show the suggestions dropdown
+            suggestionsDropdown.style.display = 'block';
+            
             // Enable scrolling if there are many results
             if (matchingCandles.length > 5) {
                 suggestionsDropdown.style.maxHeight = '400px';
@@ -313,8 +322,9 @@ const candlesData = [
         name: 'Scented Diya Candle',
         price: 45,
         originalPrice: 50,
+        packPrice: 160,
         image: 'new_arrivals/scented diya candle.jpg',
-        description: 'Beautiful scented diya candles, perfect for festive occasions and home decoration. Pack of 4 candles.',
+        description: 'Beautiful scented diya candles, perfect for festive occasions and home decoration. Single piece ₹45, pack of 4 for ₹160.',
         scent: 'Customizable'
     },
     {
@@ -414,7 +424,7 @@ function navigateTo(page, id = null, section = null) {
         scrollToSection = section;
         renderPage();
         if (!section) {
-            window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+            window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
         }
     });
 }
@@ -762,6 +772,28 @@ function renderPage() {
 
 function renderHomePageAndAllSections() {
     appRoot.innerHTML = `
+        <!-- Dussehra Offer Banner -->
+        <div class="dussehra-offer-banner">
+            <div class="dussehra-diya left-diya"></div>
+            <div class="dussehra-diya right-diya"></div>
+            <div class="floating-element flower-1"></div>
+            <div class="floating-element flower-2"></div>
+            <div class="floating-element flower-3"></div>
+            <div class="floating-element star-1"></div>
+            <div class="floating-element star-2"></div>
+            <div class="dussehra-offer-content">
+                <div class="dussehra-offer-text">
+                    <span class="dussehra-offer-title">✨ Dussehra Special Offers ✨</span>
+                    <span class="dussehra-offer-subtitle">Starting October 22nd | Up to 30% OFF on Festival Collection</span>
+                </div>
+                <div class="dussehra-offer-cta">
+                    <a href="#candle-collection-section" class="dussehra-offer-button">Shop Now <span class="button-sparkle"></span></a>
+                </div>
+            </div>
+            <div class="dussehra-decoration left-decoration"></div>
+            <div class="dussehra-decoration right-decoration"></div>
+        </div>
+        
         <section class="hero-section" id="home-section">
             <div class="hero-main-content">
                 <div class="hero-text-content">
@@ -801,8 +833,11 @@ function renderHomePageAndAllSections() {
         </section>
 
         <section class="container py-8" id="new-arrivals-section">
-            <h2 class="section-title">New Arrivals</h2>
-            <div class="candle-grid">
+            <div class="text-center">
+                <h2 class="section-title">New <span style="color: #d97706;">Arrivals</span></h2>
+                <p class="section-subtitle">Discover our latest scented creations</p>
+            </div>
+            <div class="candle-grid new-arrivals-grid">
                 <div class="candle-card" data-id="16">
                     <div class="candle-image">
                         <img src="new_arrivals/scented diya candle.jpg" alt="Scented Diya Candle" loading="lazy" decoding="async">
@@ -818,7 +853,7 @@ function renderHomePageAndAllSections() {
                         <h3>Scented Diya Candle</h3>
                         <div class="candle-price">
                             <span class="original-price">₹50</span>
-                            <span class="current-price">₹45</span>
+                            <span class="current-price">₹45 | Pack of 4: ₹160</span>
                         </div>
                         <div class="candle-actions">
                             <button type="button" class="add-to-favorites-btn" data-candle-id="16" title="Add to Favorites">
@@ -838,7 +873,7 @@ function renderHomePageAndAllSections() {
                 <div class="candle-card" data-id="17">
                     <div class="candle-image">
                         <img src="new_arrivals/scented t- light candles .jpg" alt="Scented T-Light Candles" loading="lazy" decoding="async">
-                        <div class="discount-badge">-7%</div>
+                        <div class="discount-badge" style="position: absolute; top: 10px; right: 10px; background-color: #d97706; color: white; padding: 5px 10px; border-radius: 4px; font-weight: bold;">-7%</div>
                         <div class="candle-overlay">
                             <button class="quick-view-btn" onclick="showCandleDetail('17')">Quick View</button>
                         </div>
@@ -1021,6 +1056,9 @@ function renderHomePageAndAllSections() {
                     </div>
                 </div>
             </div>
+            <div class="view-all-container">
+                <button class="view-all-btn" onclick="window.location.href='category.html'">View All Products</button>
+            </div>
         </section>
 
         <section class="container py-8" id="candle-collection-section">
@@ -1073,54 +1111,7 @@ function renderHomePageAndAllSections() {
             </div>
         </section>
 
-        <section class="container py-8" id="shop-by-category-section">
-            <h2 class="section-title">Shop By Category</h2>
-            <div class="category-grid">
-                <div class="category-card" onclick="window.location.href='category.html?type=floral'">
-                    <div class="category-image">
-                        <img src="candles_images/Scented Floating Daisy Candles.jpg" alt="Floral Candles" loading="lazy" decoding="async">
-                    </div>
-                    <div class="category-info">
-                        <h3>Floral Candles</h3>
-                        <p class="category-description">Discover our collection of beautiful floral-scented candles</p>
-                        <a href="category.html?type=floral" class="shop-now-btn">Shop Now</a>
-                    </div>
-                </div>
-                
-                <div class="category-card" onclick="window.location.href='category.html?type=vanilla'">
-                    <div class="category-image">
-                        <img src="candles_images/IMG_20250610_202641.jpg" alt="Vanilla Candles" loading="lazy" decoding="async">
-                    </div>
-                    <div class="category-info">
-                        <h3>Vanilla Candles</h3>
-                        <p class="category-description">Explore our warm and comforting vanilla-scented candles</p>
-                        <a href="category.html?type=vanilla" class="shop-now-btn">Shop Now</a>
-                    </div>
-                </div>
-                
-                <div class="category-card" onclick="window.location.href='category.html?type=lavender'">
-                    <div class="category-image">
-                        <img src="candles_images/Lavender Marble Jar Candle.jpg" alt="Lavender Candles" loading="lazy" decoding="async">
-                    </div>
-                    <div class="category-info">
-                        <h3>Lavender Candles</h3>
-                        <p class="category-description">Relax with our soothing lavender-scented candles</p>
-                        <a href="category.html?type=lavender" class="shop-now-btn">Shop Now</a>
-                    </div>
-                </div>
-                
-                <div class="category-card" onclick="window.location.href='category.html?type=rose'">
-                    <div class="category-image">
-                        <img src="candles_images/Rose Heart Jar Candle.jpg" alt="Rose Candles" loading="lazy" decoding="async">
-                    </div>
-                    <div class="category-info">
-                        <h3>Rose Candles</h3>
-                        <p class="category-description">Indulge in our romantic rose-scented candles</p>
-                        <a href="category.html?type=rose" class="shop-now-btn">Shop Now</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <div id="shop-by-category-container"></div>
 
         <section class="best-sellers-section" id="best-sellers-section">
             <h2 class="section-title">Best Sellers</h2>
@@ -1194,7 +1185,7 @@ function renderHomePageAndAllSections() {
                 <div class="about-main-content">
                     <p>At <strong>SomaScents</strong>, we believe that every home deserves a touch of warmth, tranquility, and exquisite aroma. Our journey began with a passion for <strong>handcrafted candles</strong> and a vision to <strong>"illuminate every home with elegance."</strong></p>
                     <p>We meticulously curate the finest selection of artisan-crafted candles, designed to transform your space into a sanctuary of peace and comfort.</p>
-                    <svg class="center-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 110-6 3 3 0 010 6z"></path></svg>
+                </div>
                 </div>
 
                 <div class="about-features-grid">
@@ -1258,7 +1249,7 @@ function renderHomePageAndAllSections() {
                         <p>Mehdipatnam</p>
                     </div>
                     <div class="map-placeholder">
-                        <img src="https://placehold.co/400x250/E0E7FF/3F51B5?text=Map+Goes+Here" alt="Map Location">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3807.4979338103223!2d78.43679631744384!3d17.39127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb97a7f03b5d81%3A0x55c2b1a6e3975d8!2sMehdipatnam%2C%20Hyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1652345678901!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
             </div>
@@ -1289,7 +1280,7 @@ document.querySelectorAll('.candle-card').forEach(card => {
 function showCandleDetail(id) {
     navigateTo('detail', id);
     // Ensure detail opens from top
-    setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }), 0);
+    setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' }), 0);
 }
 
 // Function to render the detail view of a single candle
@@ -1309,6 +1300,16 @@ function renderCandleDetail(id) {
         return;
     }
 
+    // Check if item is in favorites
+    const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+    const isFavorite = favorites.includes(candle.id);
+
+    // Special pricing display for Scented Diya Candle
+    let priceDisplay = `₹${candle.price.toFixed(2)}`;
+    if (candle.id === '16' && candle.packPrice) {
+        priceDisplay = `Single piece: ₹${candle.price.toFixed(2)} | Pack of 4: ₹${candle.packPrice.toFixed(2)}`;
+    }
+
     appRoot.innerHTML = `
         <section class="container py-8">
             <div class="candle-detail">
@@ -1317,7 +1318,7 @@ function renderCandleDetail(id) {
                 </div>
                 <div class="candle-detail-content">
                     <h2>${candle.name}</h2>
-                    <p class="price">₹${candle.price.toFixed(2)}</p>
+                    <p class="price">${priceDisplay}</p>
                     <p class="description">${candle.description}</p>
                     <div class="scent-notes">
                         <h3>Scent Notes:</h3>
@@ -1327,6 +1328,12 @@ function renderCandleDetail(id) {
                         <button class="button button-primary" id="add-to-cart-detail-btn">
                             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M16 11V9H8V7h8V5l4 4-4 4zm-6 4H4a2 2 0 01-2-2V5a2 2 0 012-2h6v2H4v8h6v2z"/></svg>
                             Add to Cart
+                        </button>
+                        <button class="button button-secondary ${isFavorite ? 'added-to-favorites' : ''}" id="add-to-favorites-detail-btn">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 3.22l-.61-.6a5.5 5.5 0 00-7.78 7.77L10 18.78l8.39-8.4a5.5 5.5 0 00-7.78-7.77l-.61.61z"/>
+                            </svg>
+                            ${isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
                         </button>
                         <button class="button button-secondary" id="back-to-candles-btn">
                             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd"></path></svg>
@@ -1338,8 +1345,32 @@ function renderCandleDetail(id) {
         </section>
     `;
 
+    // Hide footer on detail page
+    const footer = document.querySelector('footer');
+    if (footer) {
+        footer.style.display = 'none';
+    }
+    
+    // Hide social media icons on detail page
+    const socialButtonsContainer = document.getElementById('social-buttons-container');
+    if (socialButtonsContainer) {
+        socialButtonsContainer.style.display = 'none';
+    }
+
     // Changed to navigate to candles section specifically
-    document.getElementById('back-to-candles-btn').addEventListener('click', () => navigateTo('home-and-list', null, 'candle-collection-section'));
+    document.getElementById('back-to-candles-btn').addEventListener('click', () => {
+        // Show footer again when going back
+        if (footer) {
+            footer.style.display = 'block';
+        }
+        // Show social media icons again when going back
+        const socialButtonsContainer = document.getElementById('social-buttons-container');
+        if (socialButtonsContainer) {
+            socialButtonsContainer.style.display = 'flex';
+        }
+        navigateTo('home-and-list', null, 'candle-collection-section');
+    });
+    
     // Add to cart button on detail page
     const addBtn = document.getElementById('add-to-cart-detail-btn');
     if (addBtn) {
@@ -1348,30 +1379,43 @@ function renderCandleDetail(id) {
             addBtn.textContent = 'Added to Cart';
         });
     }
+    
+    // Add to favorites button on detail page
+    const favBtn = document.getElementById('add-to-favorites-detail-btn');
+    if (favBtn) {
+        favBtn.addEventListener('click', () => {
+            toggleFavorite(id);
+            const favorites = JSON.parse(localStorage.getItem('glowhaven_favorites')) || [];
+            const isFavorite = favorites.includes(id);
+            favBtn.textContent = isFavorite ? 'Remove from Favorites' : 'Add to Favorites';
+            favBtn.classList.toggle('added-to-favorites', isFavorite);
+        });
+    }
+    
     // Scroll to top after rendering detail
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 } 
 
 // Event listeners for navigation
 document.getElementById('nav-home').addEventListener('click', (e) => {
     e.preventDefault();
     const homeEl = document.getElementById('home-section');
-    if (homeEl) { homeEl.scrollIntoView({ behavior: 'auto' }); }
+    if (homeEl) { homeEl.scrollIntoView({ behavior: 'instant' }); }
 });
 
 document.getElementById('nav-candles').addEventListener('click', (e) => {
     e.preventDefault();
-    document.getElementById('candle-collection-section').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('candle-collection-section').scrollIntoView({ behavior: 'instant' });
 });
 
 document.getElementById('nav-about').addEventListener('click', (e) => {
     e.preventDefault();
-    document.getElementById('about-section-link').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('about-section-link').scrollIntoView({ behavior: 'instant' });
 });
 
 document.getElementById('nav-contact').addEventListener('click', (e) => {
     e.preventDefault();
-    document.getElementById('contact-section-link').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('contact-section-link').scrollIntoView({ behavior: 'instant' });
 });
 
 // Initialize the page on load
@@ -1382,8 +1426,13 @@ document.addEventListener('DOMContentLoaded', () => {
         currentYearFooter.textContent = new Date().getFullYear();
     }
     renderPage();
-    // Ensure we scroll to the top of the home section on initial load/reload
-    document.getElementById('home-section').scrollIntoView({ behavior: 'smooth' });
+    // Ensure we scroll to the offers section on initial load/reload
+    setTimeout(() => {
+        const offersSection = document.querySelector('.dussehra-offer-banner');
+        if (offersSection) {
+            offersSection.scrollIntoView({ behavior: 'instant' });
+        }
+    }, 100);
 });
 
 // Toast notification function
@@ -1483,21 +1532,8 @@ function setActiveNavLink() {
     }
 }
 
-// WhatsApp button logic
-const whatsappBtn = document.getElementById('whatsapp-btn');
-whatsappBtn.addEventListener('click', () => {
-    const phoneNumber = '+917416778158'; // Replace with your actual WhatsApp number
-    const message = 'Hi! I\'m interested in your candles. Can you help me?';
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-});
-
-// Instagram button logic
-const instagramBtn = document.getElementById('instagram-btn');
-instagramBtn.addEventListener('click', () => {
-    const instagramUrl = 'https://www.instagram.com/somascents_?igsh=Nmx2enA0eXZ4enRm'; // SomaScents Instagram handle
-    window.open(instagramUrl, '_blank');
-});
+// WhatsApp and Instagram buttons are now direct links with href attributes
+// No JavaScript event listeners needed anymore
 
 // Up arrow button logic
 const scrollUpBtn = document.getElementById('scroll-up-btn');
@@ -1515,6 +1551,7 @@ scrollUpBtn.addEventListener('click', () => {
 // Search functionality
 const searchInput = document.getElementById('search-input');
 if (searchInput) {
+    // Input event for real-time filtering
     searchInput.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase().trim();
         if (searchTerm.length > 0) {
@@ -1533,6 +1570,20 @@ if (searchInput) {
             // Show all candles when search is cleared
             if (currentPage === 'home-and-list') {
                 renderCandleCollection(candlesData);
+            }
+        }
+    });
+    
+    // Add click event listeners to candle cards after search
+    document.addEventListener('click', (e) => {
+        // Check if the clicked element is a candle card or inside a candle card
+        const candleCard = e.target.closest('.candle-card');
+        if (candleCard) {
+            const candleId = candleCard.dataset.id;
+            if (candleId) {
+                // Navigate to the specific candle detail page
+                showCandleDetail(candleId);
+                e.preventDefault();
             }
         }
     });
@@ -2236,6 +2287,8 @@ document.addEventListener('DOMContentLoaded', function() {
             triggerWaveAnimation();
         }
     }
+    
+    // New Arrivals animations removed to keep display stable
     
     // Add event listeners for favorites and cart buttons using data attributes
     document.addEventListener('click', function(event) {
