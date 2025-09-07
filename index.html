@@ -3668,30 +3668,151 @@
         #app-root.fade-in {
             opacity: 1;
         }
-        /* Loading spinner */
+        /* Candle Loading Animation */
         #loading-spinner {
             display: none;
             position: fixed;
             left: 0; top: 0; right: 0; bottom: 0;
-            background: rgba(255,255,255,0.7);
+            background: rgba(255,255,255,0.85);
             z-index: 3000;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
         }
         #loading-spinner.active {
             display: flex;
         }
-        .spinner {
-            border: 6px solid #f3f3f3;
-            border-top: 6px solid #d97706;
-            border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            animation: spin 1s linear infinite;
+        .candle-loader {
+            position: relative;
+            width: 80px;
+            height: 140px;
+            margin-bottom: 20px;
+            animation: slight-bounce 2s ease-in-out infinite;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes slight-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .candle-body {
+            position: absolute;
+            bottom: 0;
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(to bottom, #fbbf24, #d97706);
+            border-radius: 10px 10px 5px 5px;
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.5);
+            overflow: hidden;
+        }
+        .candle-body:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+        /* Add melted wax effect */
+        .candle-body:after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            filter: blur(2px);
+        }
+        .candle-wick {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 30px;
+            background-color: #4b5563;
+            border-radius: 3px;
+            z-index: 1;
+        }
+        .candle-flame {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 36px;
+            background: linear-gradient(to bottom, #f59e0b, #f97316);
+            border-radius: 50% 50% 20% 20%;
+            animation: flame-rotate 3s ease-in-out infinite alternate, flame-flicker 1.2s ease-in-out infinite alternate;
+            box-shadow: 0 0 20px #f97316, 0 0 35px #f97316, 0 0 50px rgba(249, 115, 22, 0.6);
+            z-index: 2;
+        }
+        @keyframes flame-rotate {
+            0% { transform: translateX(-50%) rotate(-5deg); }
+            100% { transform: translateX(-50%) rotate(5deg); }
+        }
+        /* Add inner glow to flame */
+        .candle-flame:before {
+            content: '';
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            filter: blur(3px);
+        }
+        .loading-text {
+            color: #d97706;
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin-top: 20px;
+            animation: loading-pulse 1.5s infinite;
+            text-shadow: 0 0 8px rgba(217, 119, 6, 0.4);
+            letter-spacing: 0.5px;
+        }
+        /* Loading dots animation */
+        .loading-text:after {
+            content: '';
+            animation: loading-dots 1.5s infinite;
+        }
+        @keyframes loading-dots {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
+            100% { content: ''; }
+        }
+        @keyframes flame-flicker {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 1;
+                box-shadow: 0 0 20px #f97316, 0 0 35px #f97316, 0 0 50px rgba(249, 115, 22, 0.6);
+            }
+            25% { 
+                transform: scale(1.1, 0.9); 
+                opacity: 0.9;
+                box-shadow: 0 0 15px #f97316, 0 0 25px #f97316, 0 0 40px rgba(249, 115, 22, 0.5);
+            }
+            50% { 
+                transform: scale(0.9, 1.1); 
+                opacity: 1;
+                box-shadow: 0 0 25px #f97316, 0 0 40px #f97316, 0 0 55px rgba(249, 115, 22, 0.7);
+            }
+            75% { 
+                transform: scale(1.05, 0.95); 
+                opacity: 0.9;
+                box-shadow: 0 0 18px #f97316, 0 0 30px #f97316, 0 0 45px rgba(249, 115, 22, 0.6);
+            }
+        }
+        @keyframes loading-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
         /* Navbar active link */
         nav ul li a.active {
@@ -4111,7 +4232,14 @@
             <path d="M18 15l-6-6-6 6"/>
         </svg>
     </button>
-    <div id="loading-spinner"><div class="spinner"></div></div>
+    <div id="loading-spinner">
+    <div class="candle-loader">
+        <div class="candle-wick"></div>
+        <div class="candle-flame"></div>
+        <div class="candle-body"></div>
+    </div>
+    <div class="loading-text">Loading</div>
+</div>
 
     <!-- Toast Notification -->
     <div id="toast-container" style="position: fixed; top: 32px; right: 32px; z-index: 2000; display: none;">
