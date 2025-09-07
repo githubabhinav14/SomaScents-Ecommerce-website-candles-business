@@ -86,10 +86,26 @@ function initSearchFunctionality() {
                     </div>
                 `;
                 
-                // Add click event to navigate to the candle detail page
+                // Add click event to navigate to the candle
                 suggestion.addEventListener('click', function() {
-                    // Navigate to candle detail view
-                    showCandleDetail(candle.id);
+                    // Scroll to candle collection section
+                    const candleSection = document.getElementById('candle-collection-section');
+                    if (candleSection) {
+                        candleSection.scrollIntoView({ behavior: 'smooth' });
+                        
+                        // Highlight the selected candle after scrolling
+                        setTimeout(() => {
+                            const candleElements = document.querySelectorAll('.candle-card');
+                            candleElements.forEach(element => {
+                                if (element.dataset.id === candle.id) {
+                                    element.classList.add('highlight-candle');
+                                    setTimeout(() => {
+                                        element.classList.remove('highlight-candle');
+                                    }, 2000);
+                                }
+                            });
+                        }, 500);
+                    }
                     
                     // Clear search input and hide dropdown
                     searchInput.value = '';
@@ -791,6 +807,23 @@ function renderPage() {
 
 function renderHomePageAndAllSections() {
     appRoot.innerHTML = `
+        <!-- Dussehra Offer Banner -->
+        <div class="dussehra-offer-banner">
+            <div class="dussehra-diya left-diya"></div>
+            <div class="dussehra-diya right-diya"></div>
+            <div class="dussehra-offer-content">
+                <div class="dussehra-offer-text">
+                    <span class="dussehra-offer-title">✨ Dussehra Special Offers ✨</span>
+                    <span class="dussehra-offer-subtitle">Starting October 22nd | Up to 30% OFF on Festival Collection</span>
+                </div>
+                <div class="dussehra-offer-cta">
+                    <a href="#candle-collection-section" class="dussehra-offer-button">Shop Now</a>
+                </div>
+            </div>
+            <div class="dussehra-decoration left-decoration"></div>
+            <div class="dussehra-decoration right-decoration"></div>
+        </div>
+        
         <section class="hero-section" id="home-section">
             <div class="hero-main-content">
                 <div class="hero-text-content">

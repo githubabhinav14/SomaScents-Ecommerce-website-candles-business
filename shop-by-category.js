@@ -54,5 +54,7 @@ function renderShopByCategorySection() {
     `;
 }
 
-// Make the function globally available
-window.renderShopByCategorySection = renderShopByCategorySection;
+// Export the function
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { renderShopByCategorySection };
+}
