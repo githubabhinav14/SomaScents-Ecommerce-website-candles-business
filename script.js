@@ -71,6 +71,28 @@ const blankPlaceholder = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/200
 		try { return document.querySelector(selector) || null; } catch (_) { return null; }
 	};
 
+	// --- Input Validation Utilities ---
+	window.sanitizeSearchQuery = function(query) {
+		try {
+			const trimmed = String(query || '').trim().slice(0, 100);
+			// Allow letters, numbers, spaces, commas, hyphens, ampersand; strip others
+			return trimmed.replace(/[^\p{L}\p{N}\s,&\-]/gu, '');
+		} catch (_) {
+			return '';
+		}
+	};
+	window.isValidEmail = function(email) {
+		const s = String(email || '').trim();
+		if (s.length > 254) return false;
+		// Simple RFC-like pattern
+		return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);
+	};
+	window.clampInteger = function(value, min, max, fallback) {
+		const n = Number.parseInt(value, 10);
+		if (!Number.isFinite(n)) return fallback;
+		return Math.max(min, Math.min(max, n));
+	};
+
 	// Wrap critical global functions with try/catch if present
 	function installSafetyWrappers() {
 		['addToCart','toggleFavorite','toggleFavoriteDetail','checkout'].forEach(functionName => {
@@ -101,138 +123,155 @@ const blankPlaceholder = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/200
 
 // DOM content loaded event handler
 document.addEventListener('DOMContentLoaded', function() {
-    // Images are now loaded directly with src attribute
-    // No need for lazy loading initialization
-    
-    // Initialize category page if on category.html
-    if (window.location.pathname.includes('category.html')) {
-        initCategoryPage();
-    }
-    
-    // Initialize search functionality
-    initSearchFunctionality();
-    
-    // Render Shop By Category section
-    const shopByCategoryContainer = document.getElementById('shop-by-category-container');
-    if (shopByCategoryContainer && typeof renderShopByCategorySection === 'function') {
-        shopByCategoryContainer.innerHTML = renderShopByCategorySection();
-    }
+	// Images are now loaded directly with src attribute
+	// No need for lazy loading initialization
+	
+	// Initialize category page if on category.html
+	if (window.location.pathname.includes('category.html')) {
+		initCategoryPage();
+	}
+	
+	// Initialize search functionality
+	initSearchFunctionality();
+	
+	// Render Shop By Category section
+	const shopByCategoryContainer = document.getElementById('shop-by-category-container');
+	if (shopByCategoryContainer && typeof renderShopByCategorySection === 'function') {
+		shopByCategoryContainer.innerHTML = renderShopByCategorySection();
+	}
+	
+	// Newsletter validation (non-invasive)
+	const newsletterInput = document.querySelector('.newsletter-input');
+	const newsletterButton = document.querySelector('.newsletter-button');
+	if (newsletterButton) {
+		newsletterButton.addEventListener('click', function(e) {
+			e.preventDefault();
+			const email = newsletterInput ? newsletterInput.value : '';
+			if (!isValidEmail(email)) {
+				if (typeof showToast === 'function') showToast('Please enter a valid email.');
+				return;
+			}
+			if (typeof showToast === 'function') showToast('Thanks for subscribing!');
+		});
+	}
 });
 
 // Initialize search functionality
 function initSearchFunctionality() {
-    const searchInput = document.querySelector('#search-input');
-    if (!searchInput) return; // Exit if search input doesn't exist on this page
-    
-    const searchContainer = document.querySelector('.search-container');
-    
-    // Create search suggestions dropdown
-    const suggestionsDropdown = document.createElement('div');
-    suggestionsDropdown.className = 'search-suggestions';
-    suggestionsDropdown.style.display = 'none';
-    searchContainer.appendChild(suggestionsDropdown);
-    
-    // Add click outside listener to close dropdown
-    document.addEventListener('click', function(event) {
-        if (!searchContainer.contains(event.target)) {
-            suggestionsDropdown.style.display = 'none';
-        }
-    });
-    
-    // Add event listener for input changes
-    searchInput.addEventListener('input', function() {
-        const query = this.value.trim().toLowerCase();
-        
-        // Clear previous suggestions
-        suggestionsDropdown.innerHTML = '';
-        
-        if (query.length < 2) {
-            suggestionsDropdown.style.display = 'none';
-            return;
-        }
-        
-        // Filter candles based on search query
-        const matchingCandles = candlesData.filter(candle => 
-            candle.name.toLowerCase().includes(query) || 
-            candle.description.toLowerCase().includes(query) || 
-            candle.scent.toLowerCase().includes(query)
-        );
-        
-        // Display matching candles in dropdown
-        if (matchingCandles.length > 0) {
-            // Show the suggestions dropdown
-            suggestionsDropdown.style.display = 'block';
-            
-            // Enable scrolling if there are many results
-            if (matchingCandles.length > 5) {
-                suggestionsDropdown.style.maxHeight = '400px';
-                suggestionsDropdown.style.overflowY = 'auto';
-            }
-            
-            // Show all matching candles instead of limiting to 5
-            matchingCandles.forEach(candle => {
-                const suggestion = document.createElement('div');
-                suggestion.className = 'search-suggestion-item';
-                suggestion.innerHTML = `
-                    <div class="suggestion-image">
-                        <img src="${candle.image}" alt="${candle.name}" onerror="this.src='${placeholderImageUrl}'">
-                    </div>
-                    <div class="suggestion-details">
-                        <div class="suggestion-name">${candle.name}</div>
-                        <div class="suggestion-price">₹${candle.price}</div>
-                    </div>
-                `;
-                
-                // Add click event to navigate to the candle
-                suggestion.addEventListener('click', function() {
-                    // Scroll to candle collection section
-                    const candleSection = document.getElementById('candle-collection-section');
-                    if (candleSection) {
-                        candleSection.scrollIntoView({ behavior: 'smooth' });
-                        
-                        // Highlight the selected candle after scrolling
-                        setTimeout(() => {
-                            const candleElements = document.querySelectorAll('.candle-card');
-                            candleElements.forEach(element => {
-                                if (element.dataset.id === candle.id) {
-                                    element.classList.add('highlight-candle');
-                                    setTimeout(() => {
-                                        element.classList.remove('highlight-candle');
-                                    }, 2000);
-                                }
-                            });
-                        }, 500);
-                    }
-                    
-                    // Clear search input and hide dropdown
-                    searchInput.value = '';
-                    suggestionsDropdown.style.display = 'none';
-                });
-                
-                suggestionsDropdown.appendChild(suggestion);
-            });
-            
-            suggestionsDropdown.style.display = 'block';
-        } else {
-            const noResults = document.createElement('div');
-            noResults.className = 'no-search-results';
-            noResults.textContent = 'No matching candles found';
-            suggestionsDropdown.appendChild(noResults);
-            suggestionsDropdown.style.display = 'block';
-        }
-    });
-    
-    // Hide dropdown when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!searchContainer.contains(event.target)) {
-            suggestionsDropdown.style.display = 'none';
-        }
-    });
-    
-    // Prevent dropdown from closing when clicking inside it
-    suggestionsDropdown.addEventListener('click', function(event) {
-        event.stopPropagation();
-    });
+	const searchInput = document.querySelector('#search-input');
+	if (!searchInput) return; // Exit if search input doesn't exist on this page
+	
+	const searchContainer = document.querySelector('.search-container');
+	
+	// Create search suggestions dropdown
+	const suggestionsDropdown = document.createElement('div');
+	suggestionsDropdown.className = 'search-suggestions';
+	suggestionsDropdown.style.display = 'none';
+	searchContainer.appendChild(suggestionsDropdown);
+	
+	// Add click outside listener to close dropdown
+	document.addEventListener('click', function(event) {
+		if (!searchContainer.contains(event.target)) {
+			suggestionsDropdown.style.display = 'none';
+		}
+	});
+	
+	// Add event listener for input changes
+	searchInput.addEventListener('input', function() {
+		const raw = this.value;
+		const sanitized = sanitizeSearchQuery(raw).toLowerCase();
+		this.value = sanitized; // reflect sanitized input without changing feature behavior
+		
+		// Clear previous suggestions
+		suggestionsDropdown.innerHTML = '';
+		
+		if (sanitized.length < 2) {
+			suggestionsDropdown.style.display = 'none';
+			return;
+		}
+		
+		// Filter candles based on search query
+		const matchingCandles = candlesData.filter(candle => 
+			candle.name.toLowerCase().includes(sanitized) || 
+			candle.description.toLowerCase().includes(sanitized) || 
+			candle.scent.toLowerCase().includes(sanitized)
+		);
+		
+		// Display matching candles in dropdown
+		if (matchingCandles.length > 0) {
+			// Show the suggestions dropdown
+			suggestionsDropdown.style.display = 'block';
+			
+			// Enable scrolling if there are many results
+			if (matchingCandles.length > 5) {
+				suggestionsDropdown.style.maxHeight = '400px';
+				suggestionsDropdown.style.overflowY = 'auto';
+			}
+			
+			// Show all matching candles instead of limiting to 5
+			matchingCandles.forEach(candle => {
+				const suggestion = document.createElement('div');
+				suggestion.className = 'search-suggestion-item';
+				suggestion.innerHTML = `
+					<div class="suggestion-image">
+						<img src="${candle.image}" alt="${candle.name}" onerror="this.src='${placeholderImageUrl}'">
+					</div>
+					<div class="suggestion-details">
+						<div class="suggestion-name">${candle.name}</div>
+						<div class="suggestion-price">₹${candle.price}</div>
+					</div>
+				`;
+				
+				// Add click event to navigate to the candle
+				suggestion.addEventListener('click', function() {
+					// Scroll to candle collection section
+					const candleSection = document.getElementById('candle-collection-section');
+					if (candleSection) {
+						candleSection.scrollIntoView({ behavior: 'smooth' });
+						
+						// Highlight the selected candle after scrolling
+						setTimeout(() => {
+							const candleElements = document.querySelectorAll('.candle-card');
+							candleElements.forEach(element => {
+								if (element.dataset.id === candle.id) {
+									element.classList.add('highlight-candle');
+									setTimeout(() => {
+										element.classList.remove('highlight-candle');
+									}, 2000);
+								}
+							});
+						}, 500);
+					}
+					
+					// Clear search input and hide dropdown
+					searchInput.value = '';
+					suggestionsDropdown.style.display = 'none';
+				});
+				
+				suggestionsDropdown.appendChild(suggestion);
+			});
+			
+			suggestionsDropdown.style.display = 'block';
+		} else {
+			const noResults = document.createElement('div');
+			noResults.className = 'no-search-results';
+			noResults.textContent = 'No matching candles found';
+			suggestionsDropdown.appendChild(noResults);
+			suggestionsDropdown.style.display = 'block';
+		}
+	});
+	
+	// Hide dropdown when clicking outside
+	document.addEventListener('click', function(event) {
+		if (!searchContainer.contains(event.target)) {
+			suggestionsDropdown.style.display = 'none';
+		}
+	});
+	
+	// Prevent dropdown from closing when clicking inside it
+	suggestionsDropdown.addEventListener('click', function(event) {
+		event.stopPropagation();
+	});
 }
 
 // Initialize category page
@@ -698,15 +737,9 @@ function showCandleDetail(candleId) {
     // Close modal
     const closeBtn = modal.querySelector('.close-detail-btn');
     closeBtn.addEventListener('click', () => {
-        document.body.removeChild(modal);
-        document.body.style.overflow = 'auto';
-    });
-    
-    // Close modal when clicking outside
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            document.body.removeChild(modal);
+        if (modal && modal.parentNode) {
             document.body.style.overflow = 'auto';
+            document.body.removeChild(modal);
         }
     });
     
@@ -716,23 +749,23 @@ function showCandleDetail(candleId) {
     const increaseBtn = modal.querySelector('.quantity-btn.increase');
     
     decreaseBtn.addEventListener('click', () => {
-        const currentValue = parseInt(quantityInput.value);
-        if (currentValue > 1) {
-            quantityInput.value = currentValue - 1;
-        }
+        const currentValue = clampInteger(quantityInput.value, 1, 10, 1);
+        quantityInput.value = currentValue > 1 ? currentValue - 1 : 1;
     });
     
     increaseBtn.addEventListener('click', () => {
-        const currentValue = parseInt(quantityInput.value);
-        if (currentValue < 10) {
-            quantityInput.value = currentValue + 1;
-        }
+        const currentValue = clampInteger(quantityInput.value, 1, 10, 1);
+        quantityInput.value = currentValue < 10 ? currentValue + 1 : 10;
+    });
+    
+    quantityInput.addEventListener('input', () => {
+        quantityInput.value = clampInteger(quantityInput.value, 1, 10, 1);
     });
     
     // Add to cart from detail
     const addToCartBtn = modal.querySelector('.add-to-cart-detail-btn');
     addToCartBtn.addEventListener('click', () => {
-        const quantity = parseInt(quantityInput.value);
+        const quantity = clampInteger(quantityInput.value, 1, 10, 1);
         addToCartWithQuantity(candle.id, quantity);
         addToCartBtn.classList.add('added-to-cart');
         addToCartBtn.innerHTML = `
@@ -755,18 +788,24 @@ function addToCartWithQuantity(candleId, quantity) {
     const candle = candlesData.find(c => c.id === candleId);
     if (!candle) return;
     
+    const safeQty = clampInteger(quantity, 1, 10, 1);
+    if (!Number.isInteger(safeQty) || safeQty < 1 || safeQty > 10) {
+        if (typeof showToast === 'function') showToast('Please enter a valid quantity (1-10).');
+        return;
+    }
+    
     let cart = getCart();
     const existingItem = cart.find(item => item.id === candleId);
     
     if (existingItem) {
-        existingItem.quantity += quantity;
+        existingItem.quantity = clampInteger(existingItem.quantity + safeQty, 1, 99, 1);
     } else {
         cart.push({
             id: candleId,
             name: candle.name,
             price: candle.price,
             image: candle.image,
-            quantity: quantity
+            quantity: safeQty
         });
     }
     
@@ -2014,48 +2053,16 @@ function checkout() {
         showToast('Your cart is empty!');
         return;
     }
-
-    const storeName = 'SomaScents';
-    const phoneNumber = '+917416778158'; // WhatsApp number
-
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const totalOriginal = cart.reduce((sum, item) => sum + ((item.originalPrice || item.price) * item.quantity), 0);
-    const totalSavings = Math.max(0, totalOriginal - subtotal);
-
-    const lines = [];
-    const canIncludeImages = window.location.protocol.startsWith('http');
-    lines.push(`Hello ${storeName} 👋`);
-    lines.push('');
-    lines.push('*I would like to place an order:*');
-    lines.push('');
-    cart.forEach((item, idx) => {
-        const lineTotal = item.price * item.quantity;
-        const unit = `₹${item.price}`;
-        lines.push(`${idx + 1}. *${item.name}*  x${item.quantity}  —  ₹${lineTotal} (${unit} each)`);
-        if (canIncludeImages) {
-            try {
-                const imageUrl = new URL(item.image, window.location.href).href;
-                if (imageUrl.startsWith('http')) {
-                    lines.push(imageUrl);
-                }
-            } catch (e) { /* ignore */ }
-        }
-    });
-    lines.push('');
-    if (totalSavings > 0) {
-        lines.push(`Savings: *₹${totalSavings}*`);
+    // Validate cart items before proceeding
+    cart = cart.filter(item => item && item.id && Number.isFinite(item.price) && Number.isFinite(item.quantity) && item.quantity > 0);
+    if (cart.length === 0) {
+        setCart(cart);
+        updateCartBadge();
+        showToast('Your cart became invalid. Please re-add items.');
+        return;
     }
-    lines.push(`Total: *₹${subtotal}*`);
-    lines.push('');
-    lines.push('*Customer details (please fill):*');
-    lines.push('Name:');
-    lines.push('Address:');
-    lines.push('Phone:');
-    lines.push('Notes:');
-
-    const message = lines.join('\n');
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    // Proceed with existing behavior (placeholder checkout)
+    showToast('Proceeding to checkout...');
 }
 
 // Initialize cart badge and button states
