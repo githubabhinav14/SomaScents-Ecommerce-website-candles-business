@@ -419,30 +419,9 @@ function navigateTo(page, id = null, section = null) {
     });
 }
 
-function showToast(message) {
-    const toastContainer = document.getElementById('toast-container');
-    const toastMessage = document.getElementById('toast-message');
-    toastMessage.textContent = message;
-    toastContainer.style.display = 'block';
-    setTimeout(() => {
-        toastContainer.style.display = 'none';
-    }, 2000);
-}
+// Duplicate removed: showToast is defined later with enhanced fade-out behavior
 
-function fadeTransition(callback) {
-    const appRoot = document.getElementById('app-root');
-    const spinner = document.getElementById('loading-spinner');
-    appRoot.classList.add('fade-out');
-    spinner.classList.add('active');
-    setTimeout(() => {
-        callback();
-        appRoot.classList.remove('fade-out');
-        appRoot.classList.add('fade-in');
-        spinner.classList.remove('active');
-        // Initialize lazy loading after page transition
-        initLazyLoading();
-    }, 500);
-}
+// Duplicate removed: fadeTransition is defined later with improved class toggling
 
 // Filter products by category for category.html page
 function filterProductsByCategory(category) {
@@ -742,21 +721,7 @@ function toggleFavoriteDetail(candleId, button) {
 // Images are now loaded directly with src attribute
 // Lazy loading is handled by the browser's native loading="lazy" attribute
 
-function setActiveNavLink() {
-    const navLinks = document.querySelectorAll('nav ul li a');
-    navLinks.forEach(link => link.classList.remove('active'));
-    let activeLinkId;
-    switch (currentPage) {
-        case 'home-and-list':
-            activeLinkId = scrollToSection ? `nav-${scrollToSection.split('-')[0]}` : 'nav-home';
-            break;
-        case 'detail':
-            activeLinkId = 'nav-candles';
-            break;
-    }
-    const activeLink = document.getElementById(activeLinkId);
-    if (activeLink) activeLink.classList.add('active');
-}
+// Duplicate removed: setActiveNavLink is defined later
 
 function renderPage() {
     appRoot.innerHTML = '';
