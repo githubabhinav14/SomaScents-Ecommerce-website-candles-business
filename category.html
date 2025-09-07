@@ -325,11 +325,11 @@
                             <img src="${candle.image}" alt="${candle.name}" loading="lazy" decoding="async">
                             ${discountPercentage > 0 ? `<div class="discount-badge">-${discountPercentage}%</div>` : ''}
                             <div class="candle-overlay">
-                                <button class="quick-view-btn" onclick="showCandleDetail('${candle.id}')">Quick View</button>
+                                <button class="quick-view-btn" onclick="navigateTo('detail', '${candle.id}')">Quick View</button>
                             </div>
                         </div>
                         <div class="buy-now-container">
-                            <button type="button" class="buy-now-btn" onclick="showCandleDetail('${candle.id}')" aria-label="Buy ${candle.name}">Buy Now</button>
+                            <button type="button" class="buy-now-btn" onclick="navigateTo('detail', '${candle.id}')" aria-label="Buy ${candle.name}">Buy Now</button>
                         </div>
                         <div class="candle-info">
                             <h3>${candle.name}</h3>

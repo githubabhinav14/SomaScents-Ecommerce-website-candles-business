@@ -612,11 +612,11 @@ function renderCategoryProducts(products) {
                     <img src="${candle.image}" alt="${candle.name}" loading="lazy" decoding="async">
                     ${discountPercentage > 0 ? `<div class="discount-badge">-${discountPercentage}%</div>` : ''}
                     <div class="candle-overlay">
-                        <button class="quick-view-btn" onclick="showCandleDetail('${candle.id}')">Quick View</button>
+                        <button class="quick-view-btn" onclick="navigateTo('detail', '${candle.id}')">Quick View</button>
                     </div>
                 </div>
                 <div class="buy-now-container">
-                    <button type="button" class="buy-now-btn" onclick="showCandleDetail('${candle.id}')" aria-label="Buy ${candle.name}">Buy Now</button>
+                    <button type="button" class="buy-now-btn" onclick="navigateTo('detail', '${candle.id}')" aria-label="Buy ${candle.name}">Buy Now</button>
                 </div>
                 <div class="candle-info">
                     <h3>${candle.name}</h3>
@@ -979,11 +979,11 @@ function renderHomePageAndAllSections() {
                         <img src="new_arrivals/scented diya candle.jpg" alt="Scented Diya Candle" loading="lazy" decoding="async">
                         <div class="discount-badge">-10%</div>
                         <div class="candle-overlay">
-                            <button class="quick-view-btn" onclick="showCandleDetail('16')">Quick View</button>
+                            <button class="quick-view-btn" onclick="navigateTo('detail', '16')">Quick View</button>
                         </div>
                     </div>
                     <div class="buy-now-container">
-                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('16')" aria-label="Buy Scented Diya Candle">Buy Now</button>
+                        <button type="button" class="buy-now-btn" onclick="navigateTo('detail', '16')" aria-label="Buy Scented Diya Candle">Buy Now</button>
                     </div>
                     <div class="candle-info">
                         <h3>Scented Diya Candle</h3>
@@ -1011,11 +1011,11 @@ function renderHomePageAndAllSections() {
                         <img src="new_arrivals/scented t- light candles .jpg" alt="Scented T-Light Candles" loading="lazy" decoding="async">
                         <div class="discount-badge" style="position: absolute; top: 10px; right: 10px; background-color: #d97706; color: white; padding: 5px 10px; border-radius: 4px; font-weight: bold;">-7%</div>
                         <div class="candle-overlay">
-                            <button class="quick-view-btn" onclick="showCandleDetail('17')">Quick View</button>
+                            <button class="quick-view-btn" onclick="navigateTo('detail', '17')">Quick View</button>
                         </div>
                     </div>
                     <div class="buy-now-container">
-                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('17')" aria-label="Buy Scented T-Light Candles">Buy Now</button>
+                        <button type="button" class="buy-now-btn" onclick="navigateTo('detail', '17')" aria-label="Buy Scented T-Light Candles">Buy Now</button>
                     </div>
                     <div class="candle-info">
                         <h3>Scented T-Light Candles</h3>
@@ -1042,11 +1042,11 @@ function renderHomePageAndAllSections() {
                     <div class="candle-image">
                         <img src="new_arrivals/rose teddy candle.jpg" alt="Rose Teddy Candle" loading="lazy" decoding="async">
                         <div class="candle-overlay">
-                            <button class="quick-view-btn" onclick="showCandleDetail('18')">Quick View</button>
+                            <button class="quick-view-btn" onclick="navigateTo('detail', '18')">Quick View</button>
                         </div>
                     </div>
                     <div class="buy-now-container">
-                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('18')" aria-label="Buy Rose Teddy Candle">Buy Now</button>
+                        <button type="button" class="buy-now-btn" onclick="navigateTo('detail', '18')" aria-label="Buy Rose Teddy Candle">Buy Now</button>
                     </div>
                     <div class="candle-info">
                         <h3>Rose Teddy Candle</h3>
@@ -1073,11 +1073,11 @@ function renderHomePageAndAllSections() {
                         <img src="new_arrivals/motichoor laddu candle.jpg" alt="Motichoor Laddu Candle" loading="lazy" decoding="async">
                         <div class="discount-badge">-20%</div>
                         <div class="candle-overlay">
-                            <button class="quick-view-btn" onclick="showCandleDetail('19')">Quick View</button>
+                            <button class="quick-view-btn" onclick="navigateTo('detail', '19')">Quick View</button>
                         </div>
                     </div>
                     <div class="buy-now-container">
-                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('19')" aria-label="Buy Motichoor Laddu Candle">Buy Now</button>
+                        <button type="button" class="buy-now-btn" onclick="navigateTo('detail', '19')" aria-label="Buy Motichoor Laddu Candle">Buy Now</button>
                     </div>
                     <div class="candle-info">
                         <h3>Motichoor Laddu Candle</h3>
@@ -1105,11 +1105,11 @@ function renderHomePageAndAllSections() {
                         <img src="new_arrivals/scented modak candle.jpg" alt="Scented Modak Candle" loading="lazy" decoding="async">
                         <div class="discount-badge">-17%</div>
                         <div class="candle-overlay">
-                            <button class="quick-view-btn" onclick="showCandleDetail('20')">Quick View</button>
+                            <button class="quick-view-btn" onclick="navigateTo('detail', '20')">Quick View</button>
                         </div>
                     </div>
                     <div class="buy-now-container">
-                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('20')" aria-label="Buy Scented Modak Candle">Buy Now</button>
+                        <button type="button" class="buy-now-btn" onclick="navigateTo('detail', '20')" aria-label="Buy Scented Modak Candle">Buy Now</button>
                     </div>
                     <div class="candle-info">
                         <h3>Scented Modak Candle</h3>
@@ -1136,11 +1136,11 @@ function renderHomePageAndAllSections() {
                     <div class="candle-image">
                         <img src="new_arrivals/shades of nature scented candles.jpg" alt="Shades of Nature Scented Candles" loading="lazy" decoding="async">
                         <div class="candle-overlay">
-                            <button class="quick-view-btn" onclick="showCandleDetail('21')">Quick View</button>
+                            <button class="quick-view-btn" onclick="navigateTo('detail', '21')">Quick View</button>
                         </div>
                     </div>
                     <div class="buy-now-container">
-                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('21')" aria-label="Buy Shades of Nature Scented Candles">Buy Now</button>
+                        <button type="button" class="buy-now-btn" onclick="navigateTo('detail', '21')" aria-label="Buy Shades of Nature Scented Candles">Buy Now</button>
                     </div>
                     <div class="candle-info">
                         <h3>Shades of Nature Scented Candles</h3>
@@ -1166,11 +1166,11 @@ function renderHomePageAndAllSections() {
                     <div class="candle-image">
                         <img src="new_arrivals/combo 2diya+2laddu.jpg" alt="Combo 2Diya+2Laddu Candles" loading="lazy" decoding="async">
                         <div class="candle-overlay">
-                            <button class="quick-view-btn" onclick="showCandleDetail('22')">Quick View</button>
+                            <button class="quick-view-btn" onclick="navigateTo('detail', '22')">Quick View</button>
                         </div>
                     </div>
                     <div class="buy-now-container">
-                        <button type="button" class="buy-now-btn" onclick="showCandleDetail('22')" aria-label="Buy Combo 2Diya+2Laddu Candles">Buy Now</button>
+                        <button type="button" class="buy-now-btn" onclick="navigateTo('detail', '22')" aria-label="Buy Combo 2Diya+2Laddu Candles">Buy Now</button>
                     </div>
                     <div class="candle-info">
                         <h3>Combo 2Diya+2Laddu Candles</h3>
@@ -1216,11 +1216,11 @@ function renderHomePageAndAllSections() {
                                 <img src="${candle.image}" alt="${candle.name}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${placeholderImageUrl}';">
                                 ${discountPercentage > 0 ? `<div class="discount-badge">-${discountPercentage}%</div>` : ''}
                                 <div class="candle-overlay">
-                                    <button class="quick-view-btn" onclick="showCandleDetail('${candle.id}')">Quick View</button>
+                                    <button class="quick-view-btn" onclick="navigateTo('detail', '${candle.id}')">Quick View</button>
                                 </div>
                             </div>
                             <div class="buy-now-container">
-                                <button type="button" class="buy-now-btn" onclick="showCandleDetail('${candle.id}')" aria-label="Buy ${candle.name}">Buy Now</button>
+                                <button type="button" class="buy-now-btn" onclick="navigateTo('detail', '${candle.id}')" aria-label="Buy ${candle.name}">Buy Now</button>
                             </div>
                             <div class="candle-info">
                                 <h3>${candle.name}</h3>
@@ -1399,7 +1399,7 @@ document.querySelectorAll('.candle-card').forEach(card => {
         if (event.target.closest('.add-to-cart-btn') || event.target.closest('.add-to-favorites-btn') || event.target.closest('.quick-view-btn') || event.target.closest('.buy-now-btn')) {
             return;
         }
-        const candleId = event.currentTarget.dataset.id;
+        const candleId = event.currentTarget.dataset.candleId;
         navigateTo('detail', candleId);
     });
 });
@@ -1715,10 +1715,10 @@ if (searchInput) {
         // Check if the clicked element is a candle card or inside a candle card
         const candleCard = e.target.closest('.candle-card');
         if (candleCard) {
-            const candleId = candleCard.dataset.id;
+            const candleId = candleCard.dataset.candleId;
             if (candleId) {
                 // Navigate to the specific candle detail page
-                showCandleDetail(candleId);
+                navigateTo('detail', candleId);
                 e.preventDefault();
             }
         }
