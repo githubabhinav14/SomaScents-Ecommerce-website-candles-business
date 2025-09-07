@@ -868,8 +868,11 @@ function renderHomePageAndAllSections() {
         </section>
 
         <section class="container py-8" id="new-arrivals-section">
-            <h2 class="section-title">New Arrivals</h2>
-            <div class="candle-grid">
+            <div class="text-center">
+                <h2 class="section-title">New <span style="color: #d97706;">Arrivals</span></h2>
+                <p class="section-subtitle">Discover our latest scented creations</p>
+            </div>
+            <div class="candle-grid new-arrivals-grid">
                 <div class="candle-card" data-id="16">
                     <div class="candle-image">
                         <img src="new_arrivals/scented diya candle.jpg" alt="Scented Diya Candle" loading="lazy" decoding="async">
@@ -905,7 +908,7 @@ function renderHomePageAndAllSections() {
                 <div class="candle-card" data-id="17">
                     <div class="candle-image">
                         <img src="new_arrivals/scented t- light candles .jpg" alt="Scented T-Light Candles" loading="lazy" decoding="async">
-                        <div class="discount-badge">-7%</div>
+                        <div class="discount-badge" style="position: absolute; top: 10px; right: 10px; background-color: #d97706; color: white; padding: 5px 10px; border-radius: 4px; font-weight: bold;">-7%</div>
                         <div class="candle-overlay">
                             <button class="quick-view-btn" onclick="showCandleDetail('17')">Quick View</button>
                         </div>
@@ -1088,6 +1091,9 @@ function renderHomePageAndAllSections() {
                     </div>
                 </div>
             </div>
+            <div class="view-all-container">
+                <button class="view-all-btn" onclick="window.location.href='category.html'">View All Products</button>
+            </div>
         </section>
 
         <section class="container py-8" id="candle-collection-section">
@@ -1214,7 +1220,7 @@ function renderHomePageAndAllSections() {
                 <div class="about-main-content">
                     <p>At <strong>SomaScents</strong>, we believe that every home deserves a touch of warmth, tranquility, and exquisite aroma. Our journey began with a passion for <strong>handcrafted candles</strong> and a vision to <strong>"illuminate every home with elegance."</strong></p>
                     <p>We meticulously curate the finest selection of artisan-crafted candles, designed to transform your space into a sanctuary of peace and comfort.</p>
-                    <svg class="center-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 110-6 3 3 0 010 6z"></path></svg>
+                </div>
                 </div>
 
                 <div class="about-features-grid">
@@ -1556,21 +1562,8 @@ function setActiveNavLink() {
     }
 }
 
-// WhatsApp button logic
-const whatsappBtn = document.getElementById('whatsapp-btn');
-whatsappBtn.addEventListener('click', () => {
-    const phoneNumber = '+917416778158'; // Replace with your actual WhatsApp number
-    const message = 'Hi! I\'m interested in your candles. Can you help me?';
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-});
-
-// Instagram button logic
-const instagramBtn = document.getElementById('instagram-btn');
-instagramBtn.addEventListener('click', () => {
-    const instagramUrl = 'https://www.instagram.com/somascents_?igsh=Nmx2enA0eXZ4enRm'; // SomaScents Instagram handle
-    window.open(instagramUrl, '_blank');
-});
+// WhatsApp and Instagram buttons are now direct links with href attributes
+// No JavaScript event listeners needed anymore
 
 // Up arrow button logic
 const scrollUpBtn = document.getElementById('scroll-up-btn');
@@ -2324,6 +2317,8 @@ document.addEventListener('DOMContentLoaded', function() {
             triggerWaveAnimation();
         }
     }
+    
+    // New Arrivals animations removed to keep display stable
     
     // Add event listeners for favorites and cart buttons using data attributes
     document.addEventListener('click', function(event) {
